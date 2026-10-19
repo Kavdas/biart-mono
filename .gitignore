@@ -1,0 +1,19 @@
+node_modules/
+.wp-env.override.json
+*.log
+.DS_Store
+Thumbs.db
+
+# исходники (тяжёлые) — не для репо
+Photos/
+Visual assets/
+BIART_brandbook_all_web.pdf
+dist/
+docs/*.png
+docs/*.pdf
+docs/*.zip
+design/*.html
+design/*.b64
+.claude/
+
+dist/

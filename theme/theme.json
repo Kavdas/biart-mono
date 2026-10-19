@@ -1,0 +1,233 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "useRootPaddingAwareAlignments": false,
+    "layout": {
+      "contentSize": "1320px",
+      "wideSize": "1400px"
+    },
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "custom": true,
+      "palette": [
+        {
+          "slug": "black",
+          "name": "Чёрный",
+          "color": "#0a0a0a"
+        },
+        {
+          "slug": "white",
+          "name": "Белый",
+          "color": "#ffffff"
+        },
+        {
+          "slug": "soft",
+          "name": "Светло-серый",
+          "color": "#f1f1f0"
+        },
+        {
+          "slug": "mute",
+          "name": "Серый",
+          "color": "#6b6b6b"
+        }
+      ]
+    },
+    "typography": {
+      "defaultFontSizes": false,
+      "fluid": false,
+      "fontFamilies": [
+        {
+          "slug": "display",
+          "name": "Inter Tight (заголовки)",
+          "fontFamily": "\"Inter Tight\", \"Helvetica Neue\", Arial, sans-serif"
+        },
+        {
+          "slug": "body",
+          "name": "Inter Tight (текст)",
+          "fontFamily": "\"Inter Tight\", \"Helvetica Neue\", Arial, sans-serif"
+        },
+        {
+          "slug": "mono",
+          "name": "JetBrains Mono (подписи)",
+          "fontFamily": "\"JetBrains Mono\", ui-monospace, Menlo, monospace"
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "small",
+          "name": "Мелкий",
+          "size": "var(--fs-small)"
+        },
+        {
+          "slug": "medium",
+          "name": "Обычный",
+          "size": "var(--fs-body)"
+        },
+        {
+          "slug": "large",
+          "name": "Крупный",
+          "size": "var(--fs-h3)"
+        },
+        {
+          "slug": "x-large",
+          "name": "Заголовок",
+          "size": "var(--fs-h2)"
+        },
+        {
+          "slug": "huge",
+          "name": "Огромный",
+          "size": "var(--fs-h1)"
+        }
+      ]
+    },
+    "spacing": {
+      "units": [
+        "px",
+        "rem",
+        "%",
+        "vw",
+        "vh"
+      ],
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--white)",
+      "text": "var(--wp--preset--color--black)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--body)",
+      "fontSize": "var(--wp--preset--font-size--medium)",
+      "lineHeight": "1.55"
+    },
+    "elements": {
+      "h1": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.02",
+          "letterSpacing": ".005em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.02",
+          "letterSpacing": ".005em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.01em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "h4": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.01em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "h5": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.01em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "h6": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "700",
+          "lineHeight": "1.2",
+          "letterSpacing": "-0.01em"
+        },
+        "color": {
+          "text": "inherit"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--black)"
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--black)",
+          "text": "var(--wp--preset--color--white)"
+        },
+        "border": {
+          "radius": "var(--radius-pill)"
+        }
+      }
+    },
+    "spacing": {
+      "blockGap": "0"
+    }
+  },
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Шапка (RU)",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Подвал (RU)",
+      "area": "footer"
+    },
+    {
+      "name": "header-kz",
+      "title": "Шапка (KZ)",
+      "area": "header"
+    },
+    {
+      "name": "footer-kz",
+      "title": "Подвал (KZ)",
+      "area": "footer"
+    }
+  ],
+  "customTemplates": [
+    {
+      "name": "page-landing-kz",
+      "title": "Лендинг (қазақша)",
+      "postTypes": [
+        "page"
+      ]
+    },
+    {
+      "name": "page-kz",
+      "title": "Страница (қазақша)",
+      "postTypes": [
+        "page"
+      ]
+    }
+  ]
+}
