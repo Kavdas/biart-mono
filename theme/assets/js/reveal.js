@@ -8,7 +8,7 @@
 
   // 1. блоки выезжают снизу
   var targets = document.querySelectorAll(
-    '.section .wrap > *, .benefit, .price, .teacher, .review, .dir-row, .ev-feat, .ev-item'
+    '.section .wrap > *, .hero-balance, .benefit, .price, .teacher, .review, .dir-row, .space-row, .stat, .ev-feat, .ev-item, .faq-item'
   );
   targets.forEach(function (el) { el.classList.add('reveal'); });
 

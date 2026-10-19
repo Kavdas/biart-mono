@@ -20,7 +20,7 @@
   );
 
   /* --- параллакс: кадр внутри рамки едет медленнее страницы --- */
-  var PAR = '.about-photo img, .dir-media .dir-photo img, .ev-ph a img';
+  var PAR = '.about-photo img';
   var RANGE = 0.065;   // ход вверх-вниз, доля высоты кадра; запас даёт --zoom: 1.14
   var pars = Array.prototype.slice.call(document.querySelectorAll(PAR));
   if (pars.length) document.documentElement.classList.add('has-par');
