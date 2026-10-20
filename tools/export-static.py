@@ -2,7 +2,7 @@
 """Статичный слепок сайта для демо (GitHub Pages / Netlify / Artifact).
 python tools/export-static.py  ->  dist/index.html (RU), dist/kz/index.html (KZ), dist/assets, dist/style.css
 """
-import glob, os, re, shutil, stat, urllib.request
+import base64, glob, hashlib, os, re, shutil, stat, urllib.request
 
 BASE = 'http://localhost:8890'
 # публичный адрес демо: нужен для og:url / og:image. Меняется переменной SITE_URL
@@ -21,6 +21,23 @@ CAROUSEL_JS = chr(10).join(open(f, encoding='utf-8').read() for f in THEME_JS)
 # а в статичном слепке ссылка была голой.
 CSS_VER = str(int(os.path.getmtime('theme/style.css')))
 CSS = None  # текст стилей, снимается с первой страницы
+
+
+def harden(html):
+    """Защита статичного слепка. GitHub Pages не даёт задать HTTP-заголовки, поэтому CSP и referrer идут через <meta>.
+    Единственный исполняемый inline-скрипт разрешён по хешу, внешние скрипты и соединения запрещены,
+    фреймы — только карта Яндекса, формы запрещены вовсе. Сайт-демо закрыт от индексации: это копия,
+    она не должна конкурировать с настоящим сайтом в поиске (INDEX=1 снимает запрет)."""
+    m = re.search(r'<script>(.*?)</script>', html, re.S)
+    script_src = "'self'" + (" 'sha256-%s'" % base64.b64encode(hashlib.sha256(m.group(1).encode('utf-8')).digest()).decode() if m else '')
+    csp = ("default-src 'self'; script-src %s; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
+           "frame-src https://yandex.kz https://yandex.ru https://yandex.com; connect-src 'self'; media-src 'self'; "
+           "object-src 'none'; base-uri 'self'; form-action 'none'" % script_src)
+    tags = ['<meta http-equiv="Content-Security-Policy" content="%s">' % csp,
+            '<meta name="referrer" content="strict-origin-when-cross-origin">']
+    if os.environ.get('INDEX') != '1':
+        tags.append('<meta name="robots" content="noindex, nofollow">')
+    return html.replace('<head>', '<head>\n' + '\n'.join(tags), 1)
 
 
 def export(path, out_file, prefix):
@@ -69,6 +86,8 @@ def export(path, out_file, prefix):
     html = re.sub(r'(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*', lambda m: m.group(1) + SITE + 'assets/img/og.jpg', html)
     html = re.sub(r'<link rel="canonical"[^>]*>\s*', '', html)
     html = html.replace('</head>', '<link rel="canonical" href="%s">\n</head>' % page_url, 1)
+
+    html = harden(html)
 
     os.makedirs(os.path.dirname(out_file) or '.', exist_ok=True)
     open(out_file, 'w', encoding='utf-8').write(html)

@@ -22,9 +22,9 @@
 
 Демо основного (цветного) проекта: https://kavdas.github.io/biart-demo/.
 
-| Десктоп | Мобильная версия | Редактор WordPress |
-|---|---|---|
-| ![desktop](docs/preview-desktop.jpg) | ![mobile](docs/preview-mobile.jpg) | ![editor](docs/preview-editor.jpg) |
+| Десктоп | Мобильная версия |
+|---|---|
+| ![desktop](docs/preview-desktop.jpg) | ![mobile](docs/preview-mobile.jpg) |
 
 ## Что сделано
 

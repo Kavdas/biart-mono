@@ -9,6 +9,6 @@ run('python3 tools/export-static.py');
 const dist = path.join(__dirname, '..', 'dist');
 run('git init -q -b gh-pages', dist);
 run('git add -A', dist);
-run('git -c user.name=Kavdas -c user.email=nurdauletsadvakas@gmail.com -c core.safecrlf=false commit -q -m "demo: BIART Mono"', dist);
+run('git -c user.name=Kavdas -c user.email=Kavdas@users.noreply.github.com -c core.safecrlf=false commit -q -m "demo: BIART Mono"', dist);
 run(`git push -f ${REPO} gh-pages`, dist);
 console.log('опубликовано: https://kavdas.github.io/biart-mono/ (обновится через ~1 мин)');

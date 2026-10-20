@@ -1,12 +1,12 @@
 /* «Направления»: вкладки «Детям / Взрослым» и выбор возраста.
    Состояние живёт в data-v на секции (all | 6-10 | 11-13 | 14-17 | adult); показ вариантов — в CSS.
-   Без JS видна общая подборка для детей. Ссылки вида #aud-adults / #age-6-10 открывают нужную вкладку. */
+   Без JS и по умолчанию открыта группа 6–10 лет. Ссылки вида #aud-adults / #age-6-10 открывают нужную вкладку. */
 (function () {
   var sec = document.querySelector('.directions');
   if (!sec) return;
   var links = sec.querySelectorAll('.dir-aud a, .dir-ages a');
   if (!links.length) return;
-  var aud = 'kids', age = 'all';
+  var aud = 'kids', age = '6-10';
 
   var apply = function () {
     sec.setAttribute('data-v', aud === 'adults' ? 'adult' : age);
