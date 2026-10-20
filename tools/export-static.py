@@ -5,6 +5,8 @@ python tools/export-static.py  ->  dist/index.html (RU), dist/kz/index.html (KZ)
 import glob, os, re, shutil, stat, urllib.request
 
 BASE = 'http://localhost:8890'
+# публичный адрес демо: нужен для og:url / og:image. Меняется переменной SITE_URL
+SITE = os.environ.get('SITE_URL', 'https://kavdas.github.io/biart-mono/')
 THEME = '/wp-content/themes/biart-mono/'
 OUT = 'dist'
 # Скрипты темы одним куском. Список собирается из папки, а не руками:
@@ -60,6 +62,13 @@ def export(path, out_file, prefix):
     # ассеты темы -> относительные
     html = html.replace(BASE + THEME, prefix).replace(THEME, prefix)
     html = html.replace(BASE + '/', prefix or './').replace(BASE, prefix or './')
+
+    # превью ссылки (Telegram, WhatsApp, соцсети) требует абсолютных адресов
+    page_url = SITE + path.lstrip('/')
+    html = re.sub(r'(<meta property="og:url" content=")[^"]*', lambda m: m.group(1) + page_url, html)
+    html = re.sub(r'(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*', lambda m: m.group(1) + SITE + 'assets/img/og.jpg', html)
+    if 'rel="canonical"' not in html:
+        html = html.replace('</head>', '<link rel="canonical" href="%s">\n</head>' % page_url, 1)
 
     os.makedirs(os.path.dirname(out_file) or '.', exist_ok=True)
     open(out_file, 'w', encoding='utf-8').write(html)
