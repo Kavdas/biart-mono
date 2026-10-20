@@ -50,6 +50,14 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/carousel.js' ),
 		array( 'strategy' => 'defer' )
 	);
+	// «Направления»: вкладки «Детям / Взрослым» и возрасты.
+	wp_enqueue_script(
+		'biart-dir-tabs',
+		get_template_directory_uri() . '/assets/js/dir-tabs.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/dir-tabs.js' ),
+		array( 'strategy' => 'defer' )
+	);
 	// Фото-превью по наведению (пространство, направления): без JS остаются мелкие миниатюры.
 	wp_enqueue_script(
 		'biart-hover-preview',
