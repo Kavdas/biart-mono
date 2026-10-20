@@ -31,7 +31,7 @@ Text Domain: biart
   --c-paper: #f4f3f0;
   --c-white: #ffffff;
   --c-soft: #e8e7e3;
-  --c-mute: #77766f;
+  --c-mute: #62615b;
   --c-mute-inv: #9d9c97;
   --c-line: rgba(11, 11, 11, .16);
   --c-line-inv: rgba(255, 255, 255, .2);
@@ -651,15 +651,10 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 body.is-past-hero .wa-float { opacity: 1; visibility: visible; transform: none; }
 body.nav-open .wa-float { opacity: 0; visibility: hidden; }
 .wa-float .wp-block-button__link { padding: 15px 22px 15px 18px; font-size: 14px; background: var(--c-ink); color: var(--c-white); border: 1.5px solid var(--c-white); box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .5); }
-.wa-float .wp-block-button__link::after { display: none; }
 .wa-float .wp-block-button__link:hover { background: var(--c-paper); color: var(--c-ink); border-color: var(--c-ink); }
-.wa-float .wp-block-button__link::before {
-  content: ""; width: 20px; height: 20px; flex: 0 0 auto; background: currentColor;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.5 8.5l3 3 6-6' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.5 8.5l3 3 6-6' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat;
-}
 @media (max-width: 781px) {
   :root .wa-float { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
-  .wa-float .wp-block-button__link { padding: 13px 16px 13px 14px; }
+  .wa-float .wp-block-button__link { padding: 13px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { :root .wa-float { transition: none; transform: none; } }
 .editor-styles-wrapper .wa-float { display: none !important; }
@@ -694,7 +689,7 @@ body.nav-open .wa-float { opacity: 0; visibility: hidden; }
 :root .legal .legal-h:first-of-type { margin-top: 0; }
 :root .legal .legal-sub { padding-left: 22px; color: var(--c-mute); }
 :root .page .wp-block-post-title, :root main .wp-block-post-title {
-  font-weight: 900; font-size: var(--fs-h2); line-height: .92; letter-spacing: -.05em; margin: 0 0 40px; max-width: 16ch;
+  font-weight: 500; font-size: clamp(40px, 6vw, 88px); line-height: .96; letter-spacing: -.05em; margin: 0 0 48px; max-width: 16ch;
 }
 
 /* ============================================================
@@ -742,7 +737,7 @@ body.tm-open { overflow: hidden; }
    ============================================================ */
 :where(a, button, summary, [tabindex]):focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; }
 .benefits, .teachers, .ask, .site-footer, .hero-ticker { --focus: var(--c-paper); }
-:where(.benefits, .teachers, .ask, .site-footer) :where(a, button, summary, [tabindex]):focus-visible { outline-color: var(--c-paper); }
+:where(.hero-card, .benefits, .teachers, .ask, .site-footer) :where(a, button, summary, [tabindex]):focus-visible { outline-color: var(--c-paper); }
 .has-par .about-photo img, .has-par .dir-media .dir-photo img, .has-par .ev-ph a img {
   --zoom: 1.12; --par: 0px; transform: translateY(var(--par)) scale(var(--zoom)); will-change: auto;
 }

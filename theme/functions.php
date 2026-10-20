@@ -98,14 +98,6 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/deco.js' ),
 		array( 'strategy' => 'defer' )
 	);
-	// Лайтбокс фото событий: без JS ссылка открывает файл.
-	wp_enqueue_script(
-		'biart-lightbox',
-		get_template_directory_uri() . '/assets/js/lightbox.js',
-		array(),
-		(string) filemtime( get_stylesheet_directory() . '/assets/js/lightbox.js' ),
-		array( 'strategy' => 'defer' )
-	);
 }
 add_action( 'wp_enqueue_scripts', 'biart_enqueue' );
 
