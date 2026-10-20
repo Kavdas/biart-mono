@@ -67,8 +67,8 @@ def export(path, out_file, prefix):
     page_url = SITE + path.lstrip('/')
     html = re.sub(r'(<meta property="og:url" content=")[^"]*', lambda m: m.group(1) + page_url, html)
     html = re.sub(r'(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*', lambda m: m.group(1) + SITE + 'assets/img/og.jpg', html)
-    if 'rel="canonical"' not in html:
-        html = html.replace('</head>', '<link rel="canonical" href="%s">\n</head>' % page_url, 1)
+    html = re.sub(r'<link rel="canonical"[^>]*>\s*', '', html)
+    html = html.replace('</head>', '<link rel="canonical" href="%s">\n</head>' % page_url, 1)
 
     os.makedirs(os.path.dirname(out_file) or '.', exist_ok=True)
     open(out_file, 'w', encoding='utf-8').write(html)
