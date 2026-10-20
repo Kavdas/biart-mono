@@ -7,8 +7,9 @@ const run = (cmd, cwd) => execSync(cmd, { stdio: 'inherit', cwd, env: { ...proce
 const REPO = 'git@github.com:Kavdas/biart-mono.git';
 run('python3 tools/export-static.py');
 const dist = path.join(__dirname, '..', 'dist');
-run('git init -q -b gh-pages', dist);
+run('git init -q', dist);
+run('git checkout -q -B gh-pages', dist);   // не зависит от init.defaultBranch и версии git
 run('git add -A', dist);
 run('git -c user.name=Kavdas -c user.email=Kavdas@users.noreply.github.com -c core.safecrlf=false commit -q -m "demo: BIART Mono"', dist);
-run(`git push -f ${REPO} gh-pages`, dist);
+run(`git push -f ${REPO} HEAD:refs/heads/gh-pages`, dist);
 console.log('опубликовано: https://kavdas.github.io/biart-mono/ (обновится через ~1 мин)');
