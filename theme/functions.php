@@ -124,7 +124,7 @@ add_action( 'wp_enqueue_scripts', 'biart_enqueue' );
  */
 function biart_preload_fonts(): void {
 	$base = get_template_directory_uri() . '/assets/fonts/';
-	foreach ( array( 'InterTight-800.woff2', 'InterTight-400.woff2' ) as $file ) {
+	foreach ( array( 'InterTight-800.woff2', 'InterTight-400.woff2', 'PlayfairDisplay-italic-400.woff2' ) as $file ) {
 		printf( '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . PHP_EOL, esc_url( $base . $file ) );
 	}
 }

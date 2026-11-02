@@ -1,50 +1,83 @@
 <?php
 /**
- * srcset для фото темы и сжатый style.css.
+ * srcset и sizes для картинок темы.
  *
  * Фото в контенте — блоки core/image с путём к файлу темы, а не вложения медиатеки,
- * поэтому WordPress сам srcset не ставит, и телефон качал снимок в 1000 px ради карточки
- * в 315. Рядом с оригиналом лежат копии name-480w.webp и name-800w.webp
- * (tools/make-responsive.py) — здесь они дописываются в srcset при выводе.
+ * поэтому WordPress сам srcset не ставит. Рядом с оригиналом лежат копии name-480w.webp …
+ * name-1600w.webp (tools/build-images.py); здесь они дописываются в srcset при выводе блока.
+ *
+ * sizes задаётся по роли картинки, а не «на глаз»: у вертикальных кадров афиши CSS режет
+ * ширину из горизонтального фото, поэтому им нужна ширина, равная ВЫСОТЕ карточки × пропорция
+ * кадра. Иначе браузер брал копию по ширине карточки и растягивал её — фото выглядели мыльными.
  * Разметку блоков не трогаем: в редакторе блок остаётся валидным.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-function biart_theme_img_srcset( string $html ): string {
-	if ( str_contains( $html, ' srcset=' )
-		|| ! preg_match( '~ src="([^"]*/themes/biart-mono/assets/img/)([^"/]+)\.webp"~', $html, $m ) ) {
-		return $html;
-	}
-	$dir  = get_template_directory() . '/assets/img/';
-	$size = wp_getimagesize( $dir . $m[2] . '.webp' );
-	if ( ! $size ) {
-		return $html;
-	}
-	$set = array();
-	foreach ( array( 480, 800 ) as $w ) {
-		if ( file_exists( "{$dir}{$m[2]}-{$w}w.webp" ) ) {
-			$set[] = "{$m[1]}{$m[2]}-{$w}w.webp {$w}w";
+/** sizes по классу <figure>: ширина, которую картинка реально занимает на экране. */
+function biart_img_sizes( string $figure_class ): string {
+	$map = array(
+		'hero-art'    => '(max-width: 781px) 360px, 600px',
+		'dir-let'     => '230px',
+		'faq-illu'    => '230px',
+		'about-photo' => '(max-width: 781px) 420px, 700px',
+		'portrait'    => '(max-width: 520px) 90vw, (max-width: 1180px) 34vw, 270px',
+		'm-wide'      => '(max-width: 781px) 330px, 600px',
+		'm-tall'      => '(max-width: 781px) 570px, 870px',
+		'dir-photo'   => '600px',
+		'ev-ph'       => '600px',
+	);
+	foreach ( $map as $class => $sizes ) {
+		if ( preg_match( '~(?:^|\s)' . preg_quote( $class, '~' ) . '(?:\s|$)~', $figure_class ) ) {
+			return $sizes;
 		}
 	}
-	if ( ! $set ) {
+	return '(max-width: 781px) 100vw, 50vw';
+}
+
+function biart_theme_img_srcset( string $html, array $block ): string {
+	if ( str_contains( $html, ' srcset=' )
+		|| ! preg_match( '~ src="([^"]*/themes/[^/"]+/assets/img/)([^"/]+)\.webp"~', $html, $m ) ) {
 		return $html;
 	}
-	$set[] = "{$m[1]}{$m[2]}.webp {$size[0]}w";
-
-	// auto — браузер берёт реальную ширину из вёрстки (только у ленивых картинок);
-	// список после него — для браузеров, которые auto не знают.
-	$sizes = str_contains( $html, 'loading="lazy"' )
-		? 'auto, (max-width: 781px) 85vw, 40vw'
-		: '100vw';
-
+	static $cache = array();
+	$dir = get_template_directory() . '/assets/img/';
+	$key = $m[2];
+	if ( ! isset( $cache[ $key ] ) ) {
+		$set  = array();
+		$size = wp_getimagesize( $dir . $key . '.webp' );
+		if ( $size ) {
+			foreach ( glob( $dir . $key . '-*w.webp' ) ?: array() as $file ) {
+				if ( preg_match( '~-(\d+)w\.webp$~', $file, $w ) ) {
+					$set[ (int) $w[1] ] = $m[1] . basename( $file );
+				}
+			}
+			$set[ (int) $size[0] ] = $m[1] . $key . '.webp';
+			ksort( $set );
+		}
+		$cache[ $key ] = $set;
+	}
+	$set = $cache[ $key ];
+	if ( count( $set ) < 2 ) {
+		return $html;
+	}
+	$parts = array();
+	foreach ( $set as $w => $url ) {
+		$parts[] = esc_attr( $url ) . ' ' . $w . 'w';
+	}
+	$class = preg_match( '~<figure[^>]*class="([^"]*)"~', $html, $c ) ? $c[1] : '';
+	$html  = preg_replace( '~ sizes="[^"]*"~', '', $html );
 	return str_replace(
 		$m[0],
-		$m[0] . ' srcset="' . esc_attr( implode( ', ', $set ) ) . '" sizes="' . $sizes . '"',
+		$m[0] . ' srcset="' . implode( ', ', $parts ) . '" sizes="' . esc_attr( biart_img_sizes( $class ) ) . '"',
 		$html
 	);
 }
-add_filter( 'wp_content_img_tag', 'biart_theme_img_srcset' );
+add_filter( 'render_block_core/image', 'biart_theme_img_srcset', 10, 2 );
+
+// WordPress 6.7+ дописывает к sizes «auto,» — браузер тогда берёт копию по ширине блока и игнорирует нашу
+// поправку на обрезку CSS (вертикальные кадры афиши). Свои sizes точнее.
+add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 
 /**
  * Сжатая копия style.css в uploads/biart/style.<хеш>.css.

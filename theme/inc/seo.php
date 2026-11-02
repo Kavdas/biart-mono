@@ -179,11 +179,18 @@ function biart_jsonld(): void {
 }
 add_action( 'wp_head', 'biart_jsonld', 3 );
 
-/** Preload hero-фото (LCP). */
+/** Preload иллюстрации первого экрана (LCP): те же копии и sizes, что у <img>, чтобы браузер не скачал её дважды. */
 function biart_preload_hero(): void {
-	if ( is_front_page() || biart_is_kz() ) {
-		echo '<link rel="preload" as="image" href="' . esc_url( get_template_directory_uri() . '/assets/img/hero-facade.webp' ) . '">' . PHP_EOL;
+	if ( ! ( is_front_page() || biart_is_kz() ) ) {
+		return;
 	}
+	$base = get_template_directory_uri() . '/assets/img/char-acting';
+	printf(
+		'<link rel="preload" as="image" type="image/webp" href="%1$s.webp" imagesrcset="%2$s-360w.webp 360w, %2$s-640w.webp 640w, %2$s-1000w.webp 1000w, %2$s.webp 1600w" imagesizes="%3$s">' . PHP_EOL,
+		esc_url( $base ),
+		esc_url( $base ),
+		esc_attr( biart_img_sizes( 'hero-art' ) )
+	);
 }
 add_action( 'wp_head', 'biart_preload_hero', 1 );
 

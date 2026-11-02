@@ -7,6 +7,15 @@
   document.documentElement.classList.add('has-hpv');
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var imgOf = function (r) { return r.querySelector('.space-ph img, .dir-photo img'); };
+  // превью 300×375 при плотности 2× — берём копию из srcset не меньше 1000 px, а не оригинал на 2000
+  var pick = function (img) {
+    var best = img.src, bw = 0;
+    (img.getAttribute('srcset') || '').split(',').forEach(function (part) {
+      var m = part.trim().match(/^(\S+)\s+(\d+)w$/);
+      if (m && +m[2] >= 1000 && (!bw || +m[2] < bw)) { best = m[1]; bw = +m[2]; }
+    });
+    return best;
+  };
 
   if (!fine) {
     rows.forEach(function (r) {
@@ -38,7 +47,7 @@
     var img = imgOf(r);
     if (!img) return;
     r.addEventListener('pointerenter', function (e) {
-      im.src = img.src;
+      im.src = pick(img);
       tx = x = e.clientX; ty = y = e.clientY;
       pv.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
       pv.classList.add('is-on');
