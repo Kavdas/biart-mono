@@ -9,6 +9,7 @@ require_once get_template_directory() . '/inc/security.php';
 require_once get_template_directory() . '/inc/seo.php';
 require_once get_template_directory() . '/inc/embeds.php';
 require_once get_template_directory() . '/inc/assets.php';
+require_once get_template_directory() . '/inc/form.php';
 
 /** Настройка темы. */
 function biart_setup(): void {
@@ -48,6 +49,14 @@ function biart_enqueue(): void {
 		get_template_directory_uri() . '/assets/js/carousel.js',
 		array(),
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/carousel.js' ),
+		array( 'strategy' => 'defer' )
+	);
+	// Форма заявки: проверка полей и переход в WhatsApp (данные не сохраняются).
+	wp_enqueue_script(
+		'biart-form',
+		get_template_directory_uri() . '/assets/js/form.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/form.js' ),
 		array( 'strategy' => 'defer' )
 	);
 	// «Направления»: вкладки «Детям / Взрослым» и возрасты.
