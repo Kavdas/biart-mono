@@ -24,6 +24,7 @@ function biart_img_sizes( string $figure_class ): string {
 		'portrait'    => '(max-width: 520px) 90vw, (max-width: 1180px) 34vw, 270px',
 		'm-wide'      => '(max-width: 781px) 330px, 600px',
 		'm-tall'      => '(max-width: 781px) 570px, 870px',
+		'staff-photo' => '(max-width: 781px) 44vw, 330px',
 		'dir-photo'   => '600px',
 		'ev-ph'       => '600px',
 	);

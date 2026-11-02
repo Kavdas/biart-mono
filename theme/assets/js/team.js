@@ -6,8 +6,8 @@
   if (!cards.length) return;
   var isKz = document.documentElement.lang === 'kk';
   var t = isKz
-    ? { close: 'Жабу', prev: 'Алдыңғы', next: 'Келесі' }
-    : { close: 'Закрыть', prev: 'Предыдущий', next: 'Следующий' };
+    ? { close: 'Жабу', prev: 'Алдыңғы', next: 'Келесі', all: 'Барлығы' }
+    : { close: 'Закрыть', prev: 'Предыдущий', next: 'Следующий', all: 'Все' };
 
   document.documentElement.classList.add('has-team-modal');
 
@@ -30,6 +30,7 @@
           '<button type="button" class="tm-next">' + t.next + ' &#8250;</button>' +
         '</div>' +
       '</div>' +
+      '<div class="tm-staff" hidden></div>' +
     '</div>';
   document.body.appendChild(box);
 
@@ -38,6 +39,7 @@
     name: box.querySelector('.tm-name'),
     role: box.querySelector('.tm-role'),
     bio: box.querySelector('.tm-bio'),
+    staff: box.querySelector('.tm-staff'),
     close: box.querySelector('.tm-close'),
     prev: box.querySelector('.tm-prev'),
     next: box.querySelector('.tm-next')
@@ -48,6 +50,45 @@
   });
   if (!list.length) return;
   var index = 0, opener = null;
+
+  // Преподаватели направления лежат внутри биографии куратора (.staff) — переносим их под текст
+  // на всю ширину окна; если карточек много, добавляем фильтр по предмету
+  var renderStaff = function () {
+    var staff = el.bio.querySelector('.staff');
+    el.staff.innerHTML = '';
+    el.staff.hidden = !staff;
+    box.querySelector('.tm-box').classList.toggle('has-staff', !!staff);
+    if (!staff) return;
+    staff.parentNode.removeChild(staff);
+    el.staff.appendChild(staff);
+    staff.querySelectorAll('.staff-group').forEach(function (g) {
+      var cards = g.querySelectorAll('.staff-card');
+      var roles = [];
+      cards.forEach(function (c) {
+        var r = (c.querySelector('.staff-role') || {}).textContent;
+        r = r && r.trim();
+        if (r && roles.indexOf(r) < 0) roles.push(r);
+      });
+      if (cards.length < 5 || roles.length < 2) return;
+      var bar = document.createElement('div');
+      bar.className = 'staff-filter';
+      var pick = function (role, btn) {
+        bar.querySelectorAll('button').forEach(function (b) { b.classList.toggle('is-on', b === btn); b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        cards.forEach(function (c) {
+          var r = ((c.querySelector('.staff-role') || {}).textContent || '').trim();
+          c.hidden = !!role && r !== role;
+        });
+      };
+      [''].concat(roles).forEach(function (role, n) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = role || t.all;
+        b.addEventListener('click', function () { pick(role, b); });
+        bar.appendChild(b);
+        if (!n) b.classList.add('is-on');
+      });
+      g.insertBefore(bar, g.querySelector('.staff-grid'));
+    });
+  };
 
   var show = function (i) {
     index = (i + list.length) % list.length;
@@ -60,6 +101,7 @@
     el.name.textContent = name ? name.textContent : '';
     el.role.textContent = role ? role.textContent : '';
     el.bio.innerHTML = bio ? bio.innerHTML : '';
+    renderStaff();
     el.prev.hidden = el.next.hidden = list.length < 2;
     box.querySelector('.tm-box').scrollTop = 0;
   };

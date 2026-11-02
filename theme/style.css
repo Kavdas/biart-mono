@@ -744,7 +744,7 @@ body.nav-open .wa-float { opacity: 0; visibility: hidden; }
 body.tm-open { overflow: hidden; }
 .tm { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: var(--gutter); background: rgba(0, 0, 0, .86); backdrop-filter: blur(4px); }
 .tm[hidden] { display: none; }
-.tm-box { position: relative; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 36px; width: min(1000px, 100%); max-height: min(88vh, 920px); overflow: auto; padding: 36px; background: var(--c-paper); color: var(--c-ink); }
+.tm-box { position: relative; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 36px; width: min(1120px, 100%); max-height: min(90vh, 960px); overflow: auto; padding: 36px; background: var(--c-paper); color: var(--c-ink); border-radius: var(--radius); }
 .tm-photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
 .tm-role { margin: 0 0 8px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--c-mute); }
 .tm-name { font-weight: 800; font-size: clamp(28px, 3vw, 44px); line-height: 1; letter-spacing: -.04em; margin: 0 0 20px; }
@@ -755,6 +755,30 @@ body.tm-open { overflow: hidden; }
 .tm-nav button:hover { background: var(--c-ink); color: var(--c-paper); }
 .tm-close { position: absolute; top: 12px; right: 14px; width: 40px; height: 40px; border: 1.5px solid var(--c-ink); border-radius: 50%; background: var(--c-paper); color: var(--c-ink); font-size: 24px; line-height: 1; cursor: pointer; }
 .tm-close:hover { background: var(--c-ink); color: var(--c-paper); }
+/* преподаватели направления (внутри окна куратора) */
+.tm-staff { grid-column: 1 / -1; padding-top: 32px; border-top: 1px solid var(--c-ink); }
+.tm-staff[hidden] { display: none; }
+.staff-title { font-size: clamp(26px, 2.6vw, 38px); font-weight: 800; letter-spacing: -.04em; margin: 0 0 10px; }
+.staff-group + .staff-group { margin-top: 40px; }
+:root .staff-dir { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--c-violet); margin: 0 0 20px; }
+.staff-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.staff-filter button { font: inherit; font-family: var(--f-mono); font-size: 12px; padding: 8px 14px; border-radius: 99px; cursor: pointer; background: transparent; color: var(--c-ink); border: 1.5px solid var(--c-line); transition: background .2s, color .2s; }
+.staff-filter button:hover, .staff-filter button.is-on { background: var(--c-violet); color: var(--c-white); border-color: var(--c-violet); }
+.staff-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
+.staff-card[hidden] { display: none; }
+.staff-card { display: flex; flex-direction: column; min-width: 0; }
+.staff-photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius-sm); display: block; }
+:root .staff-photo.is-empty { margin: 0 0 14px; aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--c-violet) 8%, var(--c-white)); color: var(--c-violet); font-weight: 600; font-size: clamp(36px, 5vw, 64px); letter-spacing: -.04em; }
+.staff-card.is-draft .staff-photo.is-empty { border: 1.5px dashed color-mix(in srgb, var(--c-violet) 45%, transparent); background: transparent; }
+:root .staff-photo { margin: 0 0 14px; }
+.staff-name { font-size: 19px; font-weight: 700; line-height: 1.15; letter-spacing: -.03em; margin: 0 0 6px; }
+:root .staff-role { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--c-violet); margin: 0 0 12px; }
+:root .staff-regalia { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.staff-regalia li { position: relative; padding-left: 16px; font-size: 14px; line-height: 1.45; color: var(--c-mute); }
+.staff-regalia li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 2px; background: var(--c-orange); }
+.staff-card.is-draft .staff-regalia li { font-style: italic; }
+.teacher .staff { display: none; }
+@media (max-width: 1024px) { .staff-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 781px) { .tm { padding: 10px; } .tm-box { grid-template-columns: 1fr; gap: 18px; padding: 22px 18px; max-height: 92vh; } .tm-photo img { aspect-ratio: 4 / 3; } }
 
 /* ============================================================

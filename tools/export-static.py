@@ -113,5 +113,9 @@ shutil.copytree('theme/assets', f'{OUT}/assets')
 open(f'{OUT}/style.css', 'w', encoding='utf-8').write(CSS.replace(THEME, '') if CSS else open('theme/style.css', encoding='utf-8').read())
 open(f'{OUT}/.nojekyll', 'w').close()
 
+drafts = sum(open(f, encoding='utf-8').read().count('staff-card is-draft') for f in glob.glob(f'{OUT}/**/index.html', recursive=True) + [f'{OUT}/index.html'])
+if drafts:
+    print('ВНИМАНИЕ: в слепке %d заглушек преподавателей (teachers-src/teachers.json, draft: true) — не публиковать как есть' % drafts)
+
 size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs) // 1024
 print('dist ready:', size, 'KB')

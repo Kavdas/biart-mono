@@ -7,6 +7,11 @@ const run = (cmd, cwd) => execSync(cmd, { stdio: 'inherit', cwd, env: { ...proce
 const REPO = 'git@github.com:Kavdas/biart-mono.git';
 run('python3 tools/export-static.py');
 const dist = path.join(__dirname, '..', 'dist');
+// заглушки преподавателей (teachers-src/teachers.json, draft:true) на публичный сайт не пускаем
+if (require('fs').readFileSync(path.join(dist, 'index.html'), 'utf8').includes('staff-card is-draft') && !process.env.ALLOW_DRAFTS) {
+  console.error('Остановлено: в слепке остались заглушки преподавателей (draft). Заполните teachers-src/teachers.json или запустите с ALLOW_DRAFTS=1.');
+  process.exit(2);
+}
 run('git init -q', dist);
 run('git checkout -q -B gh-pages', dist);   // не зависит от init.defaultBranch и версии git
 run('git add -A', dist);
