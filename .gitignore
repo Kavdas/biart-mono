@@ -24,3 +24,10 @@ design/
 .env
 *.pem
 *.key
+
+# исходники с лицами и тяжёлые оригиналы остаются локально; в репозиторий идут только готовые WebP
+teachers-src/*.jpg
+teachers-src/*.jpeg
+teachers-src/*.png
+photos-src/*.png
+photos-src/*_resized.jpg

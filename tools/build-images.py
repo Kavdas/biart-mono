@@ -145,6 +145,37 @@ def logo():
             print('logo.png', im.size)
 
 
+# картинки школы с детьми (иллюстрации, не фото): исходные PNG лежат в photos-src/ копии проекта
+KIDS_MAP = {
+    'il-creative': 'Дети в творческом пространстве BIART.png', 'il-corridor': 'Дети в ярком арт-коридоре школы.png',
+    'il-dance': 'Дети на занятии в танцевальной студии.png', 'il-music': 'Дети на музыкальной репетиции в студии.png',
+    'il-ensemble': 'Казахский ансамбль в музыкальном классе.png', 'il-guitars': 'Музыкальный урок среди ярких гитар.png',
+    'il-hall': 'Холл диван_resized.jpg', 'il-violin': 'Юная скрипачка на фоне музыкального мурала.png',
+}
+
+
+def kids():
+    import unicodedata
+    base = os.path.join(os.path.dirname(__file__), '..', 'photos-src')
+    files = {unicodedata.normalize('NFC', f): f for f in os.listdir(base)}
+    for name, fn in KIDS_MAP.items():
+        f = files.get(unicodedata.normalize('NFC', fn))
+        if not f:
+            print('нет файла:', fn)
+            continue
+        with Image.open(os.path.join(base, f)) as im:
+            im = ImageOps.exif_transpose(im).convert('RGB')
+            w, h = im.size
+            for old in glob.glob(f'{OUT}/{name}*.webp'):
+                os.remove(old)
+            widths = sorted({min(x, w) for x in (480, 800, 1200, 1500)})
+            for tw in widths:
+                r = im if tw == w else sharpen(im.resize((tw, round(h * tw / w)), Image.LANCZOS))
+                dest = f'{OUT}/{name}.webp' if tw == widths[-1] else f'{OUT}/{name}-{tw}w.webp'
+                r.save(dest, 'WEBP', quality=84, method=6)
+            print(f'{name}: {w}×{h} -> {widths}, {os.path.getsize(f"{OUT}/{name}.webp") // 1024} KB')
+
+
 def icons():
     """Значки сайта — фирменные цветные, из основного проекта."""
     for f in ('favicon.ico', 'favicon-32.png', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'):
@@ -179,6 +210,6 @@ def og():
 
 
 if __name__ == '__main__':
-    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og']
+    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og', 'kids']
     for s in steps:
-        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og}[s]()
+        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og, 'kids': kids}[s]()

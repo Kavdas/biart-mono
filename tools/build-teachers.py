@@ -10,6 +10,7 @@ import glob
 import json
 import os
 import re
+import unicodedata
 
 from PIL import Image, ImageOps
 
@@ -18,7 +19,7 @@ SRC = os.path.join(ROOT, 'teachers-src')
 OUT = os.path.join(ROOT, 'theme', 'assets', 'img', 'teachers')
 TH = '/wp-content/themes/biart-mono/assets/img/teachers/'
 CURATORS = {'bekmadieva': 'Мадина Бекмадиева', 'usmanov': 'Расул Усманов', 'musina': 'Дана Мусина'}
-WIDTHS = (320, 640, 960)
+WIDTHS = (320, 640, 960, 1280)
 T = {
     'ru': {'title': 'Преподаватели', 'more': 'Подробнее и преподаватели', 'old_more': 'Читать подробнее'},
     'kk': {'title': 'Оқытушылар', 'more': 'Толығырақ және оқытушылар', 'old_more': 'Толығырақ оқу'},
@@ -37,22 +38,27 @@ def balanced(txt, start):
             return txt.index('-->', start + m.end()) + 3
 
 
+def resolve(filename):
+    if not filename:
+        return ''
+    want = unicodedata.normalize('NFC', filename)
+    for f in os.listdir(SRC):
+        if unicodedata.normalize('NFC', f) == want:
+            return os.path.join(SRC, f)
+    return ''
+
+
 def photo_files(slug, idx, filename):
     """Собирает WebP-копии фото преподавателя, возвращает (имя без суффикса, ширина основной копии, высота) или None."""
-    path = os.path.join(SRC, filename) if filename else ''
-    if not filename or not os.path.exists(path):
+    path = resolve(filename)
+    if not path:
+        if filename:
+            print('НЕТ ФАЙЛА:', filename)
         return None
     os.makedirs(OUT, exist_ok=True)
     name = f't-{slug}-{idx:02d}'
     with Image.open(path) as im:
         im = ImageOps.exif_transpose(im).convert('RGB')
-        # портретный кадр 3:4 — единая сетка независимо от исходного соотношения
-        w, h = im.size
-        target = 3 / 4
-        if w / h > target:
-            nw = round(h * target); im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
-        else:
-            nh = round(w / target); im = im.crop((0, 0, w, nh))
         w, h = im.size
         for old in glob.glob(f'{OUT}/{name}*.webp'):
             os.remove(old)
@@ -75,11 +81,12 @@ def card_html(slug, idx, t, kk):
     name, role = pick('name'), pick('role')
     regalia = (t.get('regalia_kz') if kk and t.get('regalia_kz') else t.get('regalia')) or []
     draft = ' is-draft' if t.get('draft') else ''
+    focus = t.get('focus')
     ph = photo_files(slug, idx, t.get('photo', ''))
     if ph:
         base, w, h = ph
         photo = (f'<!-- wp:image {{"className":"staff-photo"}} -->\n<figure class="wp-block-image staff-photo"><img width="{w}" height="{h}" decoding="async" loading="lazy" '
-                 f'src="{TH}{base}.webp" alt="{esc(name)}"/></figure>\n<!-- /wp:image -->')
+                 f'src="{TH}{base}.webp" alt="{esc(name)}"' + (f' style="object-position:{esc(focus)}"' if focus else '') + '/></figure>\n<!-- /wp:image -->')
     else:
         photo = f'<!-- wp:paragraph {{"className":"staff-photo is-empty"}} --><p class="staff-photo is-empty" aria-hidden="true">{esc(initials(name))}</p><!-- /wp:paragraph -->'
     items = ''.join(f'<!-- wp:list-item --><li>{esc(r)}</li><!-- /wp:list-item -->' for r in regalia)
@@ -127,7 +134,7 @@ def apply(path, kk, data):
         j = bio.find('<!-- wp:group {"className":"staff"')
         if j >= 0:
             bio = bio[:j].rstrip('\n') + '\n' + bio[balanced(bio, j):].lstrip('\n')
-        if cur and cur.get('groups'):
+        if cur and cur.get('groups') and any(g.get('teachers') for g in cur['groups']):
             close = bio.rindex('</div>\n<!-- /wp:group -->')
             bio = bio[:close] + staff_html(slug, cur, kk) + '\n' + bio[close:]
             # подпись на карточке: куратор — не только биография

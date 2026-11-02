@@ -48,6 +48,8 @@
     if (!img) return;
     r.addEventListener('pointerenter', function (e) {
       im.src = pick(img);
+      var fig = img.closest('figure');
+      pv.classList.toggle('is-illu', !!(fig && fig.classList.contains('is-illu')));
       tx = x = e.clientX; ty = y = e.clientY;
       pv.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
       pv.classList.add('is-on');
