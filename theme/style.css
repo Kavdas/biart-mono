@@ -496,13 +496,13 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 :root .price-period { font-size: 16px; color: var(--c-mute); margin: 12px 0 36px; }
 :root .price-li { font-size: 16px; line-height: 1.4; padding: 14px 0; border-top: 1px solid var(--c-line); }
 .price .price-actions { margin-top: auto; padding-top: 32px; }
-.price-featured { background: var(--c-olive); color: var(--c-ink); border-color: var(--c-olive); overflow: hidden; isolation: isolate; }
+.price-featured { background: var(--c-orange); color: var(--c-white); border-color: var(--c-orange); overflow: hidden; isolation: isolate; }
 .price-featured::before { content: "Популярный"; position: absolute; top: 20px; right: 20px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; background: var(--c-white); color: var(--c-ink); }
 :root:lang(kk) .price-featured::before { content: "Танымал"; }
-.price-featured .price-period { color: rgba(0, 0, 0, .72); }
-.price-featured .price-li { border-top-color: rgba(0, 0, 0, .25); }
+.price-featured .price-period { color: rgba(255, 255, 255, .9); }
+.price-featured .price-li { border-top-color: rgba(255, 255, 255, .4); }
 .price-featured .wp-block-button__link { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); }
-.price-featured .wp-block-button__link:hover { background: transparent; color: var(--c-ink); }
+.price-featured .wp-block-button__link:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
 :root .price-note { margin-top: 28px; font-family: var(--f-mono); font-size: 12px; line-height: 1.6; color: var(--c-mute); max-width: 90ch; }
 @media (max-width: 1024px) { .wp-block-columns.price-grid { grid-template-columns: 1fr; } .price h3 { margin-bottom: 28px; } }
 
