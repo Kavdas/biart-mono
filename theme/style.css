@@ -457,7 +457,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .teacher .portrait img { width: 100%; aspect-ratio: 3 / 4.2; object-fit: cover; object-position: top center; }
 .teacher h3, .teacher-count h3 { font-size: clamp(20px, 1.8vw, 28px); margin-bottom: 8px; }
 /* окно «25+ преподавателей» — того же размера, что карточки кураторов */
-.count-tile { position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: flex-end; aspect-ratio: 3 / 4.2; margin-bottom: 20px; padding: clamp(18px, 2vw, 28px); background: var(--c-violet); border-radius: var(--radius-md); }
+.count-tile { position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: flex-end; aspect-ratio: 3 / 4.2; margin-bottom: 20px; padding: clamp(18px, 2vw, 28px); background: var(--c-orange); border-radius: var(--radius-md); }
 .count-tile::after { content: ""; position: absolute; inset: 0; z-index: -1; background-image: var(--grain); opacity: .22; mix-blend-mode: overlay; }
 :root .count-num { margin: 0; font-size: clamp(56px, 6.4vw, 104px); font-weight: 600; line-height: .9; letter-spacing: -.06em; color: var(--c-white); }
 :root .teacher-role { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--c-mute-inv); margin: 0 0 14px; }
@@ -843,3 +843,15 @@ body.tm-open { overflow: hidden; }
 :root .schedule .sch-age > .legal-sub:first-of-type { margin-top: 20px; }
 
 .teachers .teach-cta { margin-top: clamp(36px, 4.4vw, 64px); }
+
+/* ---- правки по ревью маркетолога ---- */
+:root .lead.is-orange { color: var(--c-orange); max-width: 30ch; margin-bottom: 20px; }
+:root .about-note { font-weight: 400; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.55; color: var(--c-ink); max-width: 46ch; margin: 0; }
+.section.ticker { padding: 0; }
+.section.ticker .hero-ticker { padding: clamp(28px, 4vw, 56px) 0 clamp(8px, 2vw, 24px); }
+.section.contacts .contact-card { max-width: var(--content); }
+.contact-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.contact-grid > .contact-info { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.contact-grid > .contact-map { min-height: 460px; }
+.contact-info .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } .contact-grid > .contact-map { min-height: 340px; } }
