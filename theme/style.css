@@ -227,14 +227,14 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
   .site-header .wrap { gap: 10px; }
   .site-header .nav-item { padding: 0; margin: 0; }
   .site-header .nav-item > p > a::after { display: none; }
-  .site-header .nav-sub { position: static; min-width: 0; opacity: 1; visibility: visible; transform: none; background: none; border: 0; box-shadow: none; padding: 0 0 6px 18px; }
+  .site-header .nav-sub { position: static; min-width: 0; opacity: 1; visibility: inherit; transform: none; background: none; border: 0; box-shadow: none; padding: 0 0 6px 18px; }
   .site-header .nav {
     display: flex; flex-direction: column; gap: 0; position: absolute; left: 0; right: 0; top: calc(100% + 8px);
     max-height: calc(100vh - var(--header-h) - 40px); overflow-y: auto; padding: 8px 24px 24px;
     background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--radius-md);
-    opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s, transform .2s, visibility .2s;
+    opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-8px); transition: opacity .2s, transform .2s, visibility .2s;
   }
-  .site-header.is-open .nav { opacity: 1; visibility: visible; transform: none; }
+  .site-header.is-open .nav { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
   .site-header .nav a { display: block; padding: 16px 0; font-size: 14px; border-bottom: 1px solid var(--c-line); }
   :root .site-header .nav-sub a { padding: 12px 0; font-size: 12px; color: var(--c-mute); border-radius: 0; }
   .site-header .nav a::before { display: none; }
@@ -855,3 +855,23 @@ body.tm-open { overflow: hidden; }
 .contact-grid > .contact-map { min-height: 460px; }
 .contact-info .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } .contact-grid > .contact-map { min-height: 340px; } }
+
+/* ---- телефон: зоны нажатия не меньше 44 px (рекомендация Apple/Google) ---- */
+@media (max-width: 781px) {
+  .wp-block-button__link { min-height: 44px; }
+  :root .dir-ages .wp-block-button__link, :root .hero-links .wp-block-button__link { min-height: 44px; }
+  .btn-link .wp-block-button__link { display: inline-flex; align-items: center; min-height: 44px; padding-bottom: 0; border-bottom: 0; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
+  .site-footer .footer-links a { display: inline-block; padding: 14px 0; }
+  .site-header .logo a { display: block; padding: 11px 0; }
+  .site-header .nav-sub a, .site-header .nav a { min-height: 44px; box-sizing: border-box; }
+  .site-footer .footer-links { gap: 0 24px; }
+  .site-header .lang a { padding: 15px 14px; }
+  .dir-text .wp-block-buttons { gap: 0 20px; }
+  :root .teacher-more { padding: 12px 0; }
+  .bf-consent { grid-template-columns: 24px 1fr; }
+  .bf-consent input { width: 24px; height: 24px; }
+  .bf-consent a, .review-meta a, .section-lead a, .dir-foot a, .contact-row a { padding: 6px 0; display: inline-block; }
+  .faq-item summary { min-height: 56px; }
+  .tm-nav button, .staff-filter button { min-height: 44px; }
+  .tm-close { width: 44px; height: 44px; }
+}
