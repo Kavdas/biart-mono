@@ -2,12 +2,12 @@
    Текст лежит в самой карточке (.teacher-bio) — клиент правит его обычным редактором,
    JS только показывает. Без JS биография видна прямо в карточке. */
 (function () {
-  var cards = document.querySelectorAll('.teacher');
+  var cards = document.querySelectorAll('.teacher:not(.teacher-count)');
   if (!cards.length) return;
   var isKz = document.documentElement.lang === 'kk';
   var t = isKz
-    ? { close: 'Жабу', prev: 'Алдыңғы', next: 'Келесі', all: 'Барлығы' }
-    : { close: 'Закрыть', prev: 'Предыдущий', next: 'Следующий', all: 'Все' };
+    ? { close: 'Жабу', prev: 'Алдыңғы', next: 'Келесі', all: 'Барлығы', allTitle: 'BIART оқытушылары', allLead: 'Бағыттар бойынша: әр оқытушының жанында — оның арт-кураторы.', cur: 'Арт-куратор: ', allLabel: 'Барлық оқытушыларды көрсету' }
+    : { close: 'Закрыть', prev: 'Предыдущий', next: 'Следующий', all: 'Все', allTitle: 'Преподаватели BIART', allLead: 'По направлениям — у каждой группы указан арт-куратор.', cur: 'Арт-куратор: ', allLabel: 'Показать всех преподавателей' };
 
   document.documentElement.classList.add('has-team-modal');
 
@@ -110,6 +110,7 @@
     opener = from;
     box.hidden = false;
     document.body.classList.add('tm-open');
+    box.querySelector('.tm-box').classList.remove('is-all');
     show(i);
     el.close.focus();
   };
@@ -119,6 +120,62 @@
     document.body.classList.remove('tm-open');
     if (opener) opener.focus();
   };
+
+  // плитка «25+ преподавателей»: показывает всех преподавателей школы, сгруппировав по направлениям
+  var showAll = function (from) {
+    opener = from;
+    var wrap = document.createElement('div');
+    var lead = document.createElement('p');
+    lead.className = 'tm-all-lead';
+    lead.textContent = t.allLead;
+    wrap.appendChild(lead);
+    var total = 0;
+    list.forEach(function (c) {
+      var bio = c.querySelector('.teacher-bio');
+      var who = c.querySelector('h3');
+      if (!bio) return;
+      bio.querySelectorAll('.staff-group').forEach(function (g) {
+        var copy = g.cloneNode(true);
+        total += copy.querySelectorAll('.staff-card').length;
+        var dir = copy.querySelector('.staff-dir');
+        if (dir && who) {
+          var cur = document.createElement('span');
+          cur.className = 'tm-all-cur';
+          cur.textContent = ' · ' + t.cur + who.textContent;
+          dir.appendChild(cur);
+        }
+        wrap.appendChild(copy);
+      });
+    });
+    el.bio.innerHTML = '';
+    el.name.textContent = t.allTitle;
+    el.role.textContent = '';
+    el.staff.innerHTML = '';
+    var title = document.createElement('h4');
+    title.className = 'staff-title';
+    title.textContent = t.allTitle + (total ? ' · ' + total : '');
+    el.staff.appendChild(title);
+    el.staff.appendChild(wrap);
+    el.staff.hidden = false;
+    var bx = box.querySelector('.tm-box');
+    bx.classList.add('has-staff', 'is-all');
+    el.prev.hidden = el.next.hidden = true;
+    box.hidden = false;
+    document.body.classList.add('tm-open');
+    bx.scrollTop = 0;
+    el.close.focus();
+  };
+  var countCard = document.querySelector('.teacher-count');
+  if (countCard) {
+    countCard.setAttribute('role', 'button');
+    countCard.setAttribute('tabindex', '0');
+    countCard.setAttribute('aria-haspopup', 'dialog');
+    countCard.setAttribute('aria-label', t.allLabel);
+    countCard.addEventListener('click', function () { showAll(countCard); });
+    countCard.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showAll(countCard); }
+    });
+  }
 
   list.forEach(function (c, i) {
     var hits = [c.querySelector('.portrait'), c.querySelector('.teacher-more')];
@@ -159,6 +216,7 @@
       return;
     }
     if (e.key === 'Escape') close();
+    else if (box.querySelector('.tm-box').classList.contains('is-all')) return;
     else if (e.key === 'ArrowLeft') show(index - 1);
     else if (e.key === 'ArrowRight') show(index + 1);
   });
