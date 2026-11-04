@@ -509,7 +509,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .price-featured { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); overflow: hidden; isolation: isolate; }
 .price-featured::before { content: "Популярный"; position: absolute; top: 20px; right: 20px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; background: var(--c-orange); color: var(--c-white); }
 :root:lang(kk) .price-featured::before { content: "Танымал"; }
-.price-featured .price-sum { color: var(--c-orange); }
+.price-featured .price-sum { color: var(--c-white); }
 .price-featured .price-period { color: rgba(255, 255, 255, .78); }
 .price-featured .price-li { border-top-color: rgba(255, 255, 255, .22); }
 .price-featured .wp-block-button__link { background: var(--c-orange); color: var(--c-white); border-color: var(--c-orange); }
@@ -902,3 +902,22 @@ body.tm-open { overflow: hidden; }
 :root .count-num.is-text { white-space: normal; overflow-wrap: normal; hyphens: manual; font-size: clamp(17px, 1.55vw, 26px); font-weight: 600; line-height: 1.08; letter-spacing: -.03em; }
 /* кнопки с призывом к действию в направлениях */
 .dir-text .btn-primary .wp-block-button__link { padding: 13px 22px; font-size: 14px; }
+
+/* ---- кнопки в карточках абонементов: на всю ширину, стрелка в круге справа ---- */
+.price .price-actions { display: block; }
+.price .price-actions .wp-block-button, .price .price-actions .wp-block-button__link { width: 100%; box-sizing: border-box; }
+.price .price-actions .wp-block-button__link {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 60px; padding: 8px 8px 8px 28px; font-size: 17px; font-weight: 700; text-align: left;
+  background: var(--c-orange); color: var(--c-white); border-color: var(--c-orange);
+}
+.price .price-actions .wp-block-button__link::after {
+  content: "↗"; flex: 0 0 auto; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--c-white); color: var(--c-orange); font-size: 20px; line-height: 1;
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1), background .25s, color .25s;
+}
+.price .price-actions .wp-block-button__link:hover { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); transform: none; }
+.price .price-actions .wp-block-button__link:hover::after { transform: rotate(45deg); background: var(--c-orange); color: var(--c-white); }
+.price-featured .price-actions .wp-block-button__link:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
+.price-featured .price-actions .wp-block-button__link:focus-visible { outline: 3px solid var(--c-white); outline-offset: 3px; }
+@media (max-width: 781px) { .price .price-actions .wp-block-button__link { min-height: 56px; padding-left: 22px; } .price .price-actions .wp-block-button__link::after { width: 40px; height: 40px; } }
