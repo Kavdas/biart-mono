@@ -897,3 +897,8 @@ body.tm-open { overflow: hidden; }
 .tm-box.is-all .staff-card { cursor: default; }
 @media (max-width: 1024px) { .tm-box.is-all .staff-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 781px) { .tm-box.is-all .staff-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* плитка «Все преподаватели» без цифры */
+:root .count-num.is-text { white-space: normal; overflow-wrap: normal; hyphens: manual; font-size: clamp(17px, 1.55vw, 26px); font-weight: 600; line-height: 1.08; letter-spacing: -.03em; }
+/* кнопки с призывом к действию в направлениях */
+.dir-text .btn-primary .wp-block-button__link { padding: 13px 22px; font-size: 14px; }
