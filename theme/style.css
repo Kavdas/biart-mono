@@ -507,12 +507,12 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 :root .price-period { font-size: 16px; color: var(--c-mute); margin: 12px 0 36px; }
 :root .price-li { font-size: 16px; line-height: 1.4; padding: 14px 0; border-top: 1px solid var(--c-line); }
 .price .price-actions { margin-top: auto; padding-top: 32px; }
-.price-featured { background: var(--c-ivory); color: var(--c-ink); border-color: var(--c-ink); overflow: hidden; isolation: isolate; }
+.price-featured { background: var(--c-orange); color: var(--c-white); border-color: var(--c-orange); overflow: hidden; isolation: isolate; }
 .price-featured::before { content: "Популярный"; position: absolute; top: 20px; right: 20px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; padding: 7px 12px; border-radius: 99px; background: var(--c-orange); color: var(--c-white); }
 :root:lang(kk) .price-featured::before { content: "Танымал"; }
-.price-featured .price-sum { color: var(--c-ink); }
-.price-featured .price-period { color: rgba(0, 0, 0, .68); }
-.price-featured .price-li { border-top-color: rgba(0, 0, 0, .18); }
+.price-featured .price-sum { color: var(--c-white); }
+.price-featured .price-period { color: rgba(255, 255, 255, .9); }
+.price-featured .price-li { border-top-color: rgba(255, 255, 255, .4); }
 .price-featured .wp-block-button__link { background: var(--c-orange); color: var(--c-white); border-color: var(--c-orange); }
 .price-featured .wp-block-button__link:hover { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); }
 :root .price-note { margin-top: 28px; font-family: var(--f-mono); font-size: 12px; line-height: 1.6; color: var(--c-mute); max-width: 90ch; }
@@ -922,3 +922,13 @@ body.tm-open { overflow: hidden; }
 .price-featured .price-actions .wp-block-button__link:hover { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); }
 .price-featured .price-actions .wp-block-button__link:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; }
 @media (max-width: 781px) { .price .price-actions .wp-block-button__link { min-height: 56px; padding-left: 22px; } .price .price-actions .wp-block-button__link::after { width: 40px; height: 40px; } }
+
+/* карточка 30 000 ₸ оранжевая: кнопка белая, текст чёрный, стрелка в чёрном круге */
+.price-featured .price-actions .wp-block-button__link { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
+.price-featured .price-actions .wp-block-button__link::after { background: var(--c-ink); color: var(--c-white); }
+.price-featured .price-actions .wp-block-button__link:hover { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); }
+.price-featured .price-actions .wp-block-button__link:hover::after { background: var(--c-white); color: var(--c-ink); transform: rotate(45deg); }
+.price-featured .price-actions .wp-block-button__link:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; }
+
+.price-featured::before { background: var(--c-white); color: var(--c-ink); }
+.price-featured { border-color: var(--c-orange); }
