@@ -932,3 +932,13 @@ body.tm-open { overflow: hidden; }
 
 .price-featured::before { background: var(--c-white); color: var(--c-ink); }
 .price-featured { border-color: var(--c-orange); }
+
+/* казахское «артықшылықтарымыз» длиннее экрана телефона: заголовок блока чуть мельче */
+@media (max-width: 781px) { :root:lang(kk) .benefits .section-title { font-size: min(8vw, 34px); } }
+
+/* телефон: плитка «Все преподаватели» — невысокая полоса, а не пустой чёрный квадрат на весь экран */
+@media (max-width: 781px) {
+  .count-tile { aspect-ratio: auto; min-height: 120px; margin-bottom: 14px; justify-content: flex-end; }
+  :root .count-num.is-text { font-size: 26px; max-width: none; }
+}
+@media (hover: none) { .has-team-modal .count-tile::before { background: var(--c-white); color: var(--c-orange); } }
