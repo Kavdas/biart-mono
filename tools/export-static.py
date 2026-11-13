@@ -31,10 +31,12 @@ def harden(html):
     m = re.search(r'<script>(.*?)</script>', html, re.S)
     script_src = "'self'" + (" 'sha256-%s'" % base64.b64encode(hashlib.sha256(m.group(1).encode('utf-8')).digest()).decode() if m else '')
     # заявки в Google Таблицу (Apps Script) разрешаем, только если адрес задан в форме (data-crm)
-    crm = ' https://script.google.com https://script.googleusercontent.com' if 'data-crm="https://script.google.com' in html else ''
-    csp = ("default-src 'self'; script-src %s; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
-           "frame-src https://yandex.kz https://yandex.ru https://yandex.com; connect-src 'self'%s; media-src 'self'; "
-           "object-src 'none'; base-uri 'self'; form-action 'none'" % (script_src, crm))
+    crm = ' https://script.google.com https://script.googleusercontent.com' if re.search(r'<form[^>]*data-crm="https://script\.google\.com', html) else ''
+    # Метрика: разрешаем её домены, только если счётчик подключён (meta biart-metrika)
+    ym = ' https://mc.yandex.ru' if re.search(r'<meta name="biart-metrika" content="\d+"', html) else ''
+    csp = ("default-src 'self'; script-src %s%s; style-src 'self' 'unsafe-inline'; img-src 'self' data:%s; font-src 'self'; "
+           "frame-src https://yandex.kz https://yandex.ru https://yandex.com; connect-src 'self'%s%s; media-src 'self'; "
+           "object-src 'none'; base-uri 'self'; form-action 'none'" % (script_src, ym, ym, crm, (ym + ' https://mc.yandex.com') if ym else ''))
     tags = ['<meta http-equiv="Content-Security-Policy" content="%s">' % csp,
             '<meta name="referrer" content="strict-origin-when-cross-origin">']
     if os.environ.get('INDEX') != '1':

@@ -80,6 +80,13 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/gallery.js' ),
 		array( 'strategy' => 'defer' )
 	);
+	wp_enqueue_script(
+		'biart-analytics',
+		get_template_directory_uri() . '/assets/js/analytics.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/analytics.js' ),
+		array( 'strategy' => 'defer' )
+	);
 	// «Направления»: вкладки «Детям / Взрослым» и возрасты.
 	wp_enqueue_script(
 		'biart-dir-tabs',
@@ -220,9 +227,22 @@ add_filter( 'language_attributes', 'biart_lang_attr' );
 function biart_kz_title( array $parts ): array {
 	if ( biart_is_kz() ) {
 		$parts['title']   = 'BIART';
-		$parts['tagline'] = 'Астанадағы шығармашылық индустриялар мектебі';
+		$parts['tagline'] = 'Астанадағы балаларға арналған шығармашылық мектеп: музыка, би, театр, digital art';
+		unset( $parts['site'] );
+	} elseif ( is_front_page() ) {
+		// главная: по этому заголовку школу ищут — «творческая школа для детей в Астане»
+		$parts['title']   = 'BIART';
+		$parts['tagline'] = 'творческая школа для детей в Астане: музыка, танцы, театр, digital art';
 		unset( $parts['site'] );
 	}
 	return $parts;
 }
 add_filter( 'document_title_parts', 'biart_kz_title' );
+
+/** Номер счётчика Яндекс Метрики: define( 'BIART_METRIKA_ID', 12345678 ); в wp-config.php. Пусто — аналитики нет. */
+function biart_metrika_meta(): void {
+	if ( defined( 'BIART_METRIKA_ID' ) && BIART_METRIKA_ID ) {
+		printf( '<meta name="biart-metrika" content="%d">' . PHP_EOL, (int) BIART_METRIKA_ID );
+	}
+}
+add_action( 'wp_head', 'biart_metrika_meta', 2 );

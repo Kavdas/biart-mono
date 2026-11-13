@@ -1047,3 +1047,21 @@ body.gl-open { overflow: hidden; }
 .shows-video { grid-column: 6 / -1; }
 .shows .section-lead { max-width: 40ch; margin-bottom: 0; }
 @media (max-width: 1024px) { .shows-text, .shows-video { grid-column: 1 / -1; } }
+
+/* ---- тексты и порядок: рейтинг в первом экране, условия абонемента обычным шрифтом ---- */
+.hero-card > .hero-rating { grid-column: 1 / 7; grid-row: 5; margin: 22px 0 0; align-self: start; }
+:root .hero-rating a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; text-decoration: none; color: var(--c-ink); border-bottom: 1.5px solid var(--c-orange); }
+:root .hero-rating a:hover { color: var(--c-orange-ink); }
+:root .price-note { font-family: var(--f-body); font-size: 15px; line-height: 1.55; color: var(--c-ink); max-width: 72ch; padding: 18px 22px; background: var(--c-soft); border-radius: var(--radius-md); margin-top: 24px; }
+@media (max-width: 781px) { .hero-card > .hero-rating { grid-column: 1 / -1; grid-row: 5; } }
+
+/* аренда: «как проходит» */
+.steps-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); margin-top: 24px; counter-reset: st; }
+.step { border-top: 1px solid var(--c-ink); padding-top: 22px; }
+:root .step-n { font-family: var(--f-mono); font-size: 12px; letter-spacing: .05em; color: var(--c-orange-ink); margin: 0 0 14px; }
+.step-t { font-size: clamp(22px, 2vw, 30px); margin-bottom: 10px; }
+:root .step-d { color: var(--c-mute); font-size: 16px; line-height: 1.5; max-width: 34ch; }
+@media (max-width: 781px) { .steps-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+:root .hero-lead { max-width: 34ch; margin-bottom: 22px; }
+:root .hero-title { margin-top: clamp(20px, 3.2vw, 44px); margin-bottom: clamp(16px, 2.4vw, 32px); }
