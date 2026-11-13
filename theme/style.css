@@ -996,7 +996,7 @@ body.tm-open { overflow: hidden; }
 .gal-item a { display: block; }
 .gal-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .5s cubic-bezier(.22, .61, .36, 1); }
 @media (hover: hover) { .gal-item:hover img { transform: scale(1.05); } }
-.gl { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .94); padding: 56px 72px; }
+.gl { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .985); padding: 56px 72px; }
 .gl[hidden] { display: none; }
 body.gl-open { overflow: hidden; }
 .gl figure { margin: 0; max-width: 100%; max-height: 100%; text-align: center; }
