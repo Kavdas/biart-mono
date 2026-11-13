@@ -228,6 +228,20 @@
       "postTypes": [
         "page"
       ]
+    },
+    {
+      "name": "page-rent",
+      "title": "Аренда",
+      "postTypes": [
+        "page"
+      ]
+    },
+    {
+      "name": "page-rent-kz",
+      "title": "Аренда (қазақша)",
+      "postTypes": [
+        "page"
+      ]
     }
   ]
 }

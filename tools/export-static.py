@@ -30,9 +30,11 @@ def harden(html):
     она не должна конкурировать с настоящим сайтом в поиске (INDEX=1 снимает запрет)."""
     m = re.search(r'<script>(.*?)</script>', html, re.S)
     script_src = "'self'" + (" 'sha256-%s'" % base64.b64encode(hashlib.sha256(m.group(1).encode('utf-8')).digest()).decode() if m else '')
+    # заявки в Google Таблицу (Apps Script) разрешаем, только если адрес задан в форме (data-crm)
+    crm = ' https://script.google.com https://script.googleusercontent.com' if 'data-crm="https://script.google.com' in html else ''
     csp = ("default-src 'self'; script-src %s; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
-           "frame-src https://yandex.kz https://yandex.ru https://yandex.com; connect-src 'self'; media-src 'self'; "
-           "object-src 'none'; base-uri 'self'; form-action 'none'" % script_src)
+           "frame-src https://yandex.kz https://yandex.ru https://yandex.com; connect-src 'self'%s; media-src 'self'; "
+           "object-src 'none'; base-uri 'self'; form-action 'none'" % (script_src, crm))
     tags = ['<meta http-equiv="Content-Security-Policy" content="%s">' % csp,
             '<meta name="referrer" content="strict-origin-when-cross-origin">']
     if os.environ.get('INDEX') != '1':
@@ -108,6 +110,8 @@ export('/privacy-policy/', f'{OUT}/privacy-policy/index.html', '../')
 export('/dogovor-oferty-sertifikata/', f'{OUT}/dogovor-oferty-sertifikata/index.html', '../')
 export('/raspisanie/', f'{OUT}/raspisanie/index.html', '../')
 export('/raspisanie-kz/', f'{OUT}/raspisanie-kz/index.html', '../')
+export('/arenda/', f'{OUT}/arenda/index.html', '../')
+export('/arenda-kz/', f'{OUT}/arenda-kz/index.html', '../')
 shutil.copytree('theme/assets', f'{OUT}/assets')
 # пути в сжатой копии от корня сайта (/wp-content/themes/biart-mono/assets/…) -> от dist/style.css
 open(f'{OUT}/style.css', 'w', encoding='utf-8').write(CSS.replace(THEME, '') if CSS else open('theme/style.css', encoding='utf-8').read())

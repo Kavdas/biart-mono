@@ -43,6 +43,8 @@ const legal = [
   ['dogovor-oferty-sertifikata', 'Договор оферты сертификата', 'oferta-sertifikat.html', null, null],
   ['raspisanie', 'Расписание по возрастам', 'schedule.html', null, null],
   ['raspisanie-kz', 'Жас бойынша кесте', 'schedule-kz.html', null, 'page-kz'],
+  ['arenda', 'Аренда — BIART (Music Hall) Space', 'rent.html', null, 'page-rent'],
+  ['arenda-kz', 'Жалға беру — BIART (Music Hall) Space', 'rent-kz.html', null, 'page-rent-kz'],
 ];
 for (const [slug, title, file, option, tpl] of legal) {
   let id = option ? wp(['option', 'get', option]).replace(/[^\d]/g, '') : '';

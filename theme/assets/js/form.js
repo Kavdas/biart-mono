@@ -9,11 +9,13 @@
     ru: {
       name: 'Введите имя (от 2 букв)', phone: 'Введите номер телефона полностью', consent: 'Нужно согласие на обработку данных',
       ok: 'Готово! Откроется WhatsApp — отправьте сообщение, и менеджер перезвонит.', link: 'Открыть WhatsApp',
+      cm: 'Комментарий: ', src: 'Заявка с сайта BIART', kind: { ask: 'вопрос', lead: 'запись', rent: 'аренда' }, ev: 'Событие: ', date: 'Дата: ', guests: 'Гостей: ',
       hi: 'Здравствуйте! Меня зовут ', tel: 'Телефон: ', age: 'Возраст: ', dir: 'Направление: ', q: 'Вопрос: ', end: 'Прошу перезвонить.'
     },
     kk: {
       name: 'Атыңызды енгізіңіз (кемінде 2 әріп)', phone: 'Телефон нөмірін толық енгізіңіз', consent: 'Деректерді өңдеуге келісім қажет',
       ok: 'Дайын! WhatsApp ашылады — хабарламаны жіберіңіз, менеджер қоңырау шалады.', link: 'WhatsApp ашу',
+      cm: 'Түсініктеме: ', src: 'BIART сайтынан өтінім', kind: { ask: 'сұрақ', lead: 'жазылу', rent: 'жалға алу' }, ev: 'Іс-шара: ', date: 'Күні: ', guests: 'Қонақ: ',
       hi: 'Сәлеметсіз бе! Менің атым ', tel: 'Телефон: ', age: 'Жасы: ', dir: 'Бағыт: ', q: 'Сұрақ: ', end: 'Қоңырау шалуыңызды сұраймын.'
     }
   };
@@ -82,12 +84,29 @@
       status.textContent = '';
       if (!validate()) return;
 
-      var parts = [m.hi + clean(f.name.value, 60) + '.', m.tel + fmtPhone(f.phone.value) + '.'];
+      // honeypot: бот заполнил скрытое поле — молча выходим
+      if (f.website && f.website.value) return;
+      var variant = form.getAttribute('data-variant') || 'ask';
+      var page = (document.title || '').split('—')[0].trim() || location.pathname;
+      var parts = [m.src + ' · ' + (m.kind[variant] || '') + ' (' + page + ').', m.hi + clean(f.name.value, 60) + '.', m.tel + fmtPhone(f.phone.value) + '.'];
+      if (f.event && f.event.value) parts.push(m.ev + clean(f.event.value, 60) + '.');
+      if (f.date && f.date.value) parts.push(m.date + clean(f.date.value, 12) + '.');
+      if (f.guests && f.guests.value) parts.push(m.guests + clean(f.guests.value, 6) + '.');
       if (f.age && f.age.value) parts.push(m.age + clean(f.age.value, 40) + '.');
       if (f.direction && f.direction.value) parts.push(m.dir + clean(f.direction.value, 60) + '.');
       var q = clean(f.message.value, 500);
-      if (q) parts.push(m.q + q);
+      if (q) parts.push((variant === 'ask' ? m.q : m.cm) + q);
       parts.push(m.end);
+      // CRM: Google Таблица через Apps Script (адрес задаётся в wp-config). Ошибка таблицы не мешает WhatsApp.
+      var crm = form.getAttribute('data-crm');
+      if (crm && /^https:\/\/script\.google\.com\//.test(crm) && window.fetch) {
+        var body = new URLSearchParams({
+          source: variant, page: location.pathname, name: clean(f.name.value, 60), phone: fmtPhone(f.phone.value),
+          event: f.event ? clean(f.event.value, 60) : '', date: f.date ? clean(f.date.value, 12) : '', guests: f.guests ? clean(f.guests.value, 6) : '',
+          age: f.age ? clean(f.age.value, 40) : '', direction: f.direction ? clean(f.direction.value, 60) : '', message: q, lang: lang
+        });
+        try { fetch(crm, { method: 'POST', mode: 'no-cors', body: body, keepalive: true }).catch(function () {}); } catch (e) { /* таблица недоступна — заявка всё равно уйдёт в WhatsApp */ }
+      }
       var url = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(parts.join(' '));
 
       // ссылка-кнопка надёжнее window.open: с 'noopener' он всегда возвращает null и блокировку не определить

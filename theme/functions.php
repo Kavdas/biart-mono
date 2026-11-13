@@ -59,6 +59,27 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/form.js' ),
 		array( 'strategy' => 'defer' )
 	);
+	wp_enqueue_script(
+		'biart-wa-source',
+		get_template_directory_uri() . '/assets/js/wa-source.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/wa-source.js' ),
+		array( 'strategy' => 'defer' )
+	);
+	wp_enqueue_script(
+		'biart-video-bg',
+		get_template_directory_uri() . '/assets/js/video-bg.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/video-bg.js' ),
+		array( 'strategy' => 'defer' )
+	);
+	wp_enqueue_script(
+		'biart-gallery',
+		get_template_directory_uri() . '/assets/js/gallery.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/gallery.js' ),
+		array( 'strategy' => 'defer' )
+	);
 	// «Направления»: вкладки «Детям / Взрослым» и возрасты.
 	wp_enqueue_script(
 		'biart-dir-tabs',

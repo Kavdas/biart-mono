@@ -942,3 +942,108 @@ body.tm-open { overflow: hidden; }
   :root .count-num.is-text { font-size: 26px; max-width: none; }
 }
 @media (hover: none) { .has-team-modal .count-tile::before { background: var(--c-white); color: var(--c-orange); } }
+
+/* ============================================================
+   СТРАНИЦА АРЕНДЫ «BIART (Music Hall) Space»
+   ============================================================ */
+.bf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.rent-main { padding: 0; }
+.rent-main > .section:first-child { padding-top: 0; }
+
+/* первый экран: видеофон под вуалью */
+.section.rent-hero { padding: var(--edge) var(--edge) 0; overflow: visible; }
+:root .rent-hero-inner { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--radius); min-height: clamp(560px, calc(100svh - 110px), 820px); display: flex; align-items: flex-end; background: #000; color: var(--c-white); }
+.rent-bg { position: absolute; inset: 0; z-index: 0; margin: 0; }
+.rent-bg video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rent-hero-inner::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, .15) 35%, rgba(0, 0, 0, .78) 100%); pointer-events: none; }
+:root .rent-hero-text { position: relative; z-index: 2; width: 100%; padding: clamp(24px, 4.2vw, 64px); }
+.rent-hero-text .eyebrow { color: var(--c-white); }
+:root .rent-title { font-size: clamp(44px, 9vw, 150px); line-height: .88; letter-spacing: -.055em; font-weight: 800; margin: 0 0 24px; max-width: 12ch; }
+:root .rent-title em { display: block; color: var(--c-orange-bright); font-size: .8em; margin-top: .06em; }
+:root .rent-lead { font-size: clamp(18px, 1.8vw, 26px); line-height: 1.25; letter-spacing: -.02em; font-weight: 500; max-width: 38ch; margin: 0 0 32px; color: rgba(255, 255, 255, .9); }
+.rent-hero .btn-ghost .wp-block-button__link, .rent-hero .is-style-outline .wp-block-button__link { background: transparent; color: var(--c-white); border-color: rgba(255, 255, 255, .6); }
+.rent-hero .btn-ghost .wp-block-button__link:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
+
+/* события и технологии: карточки с фото */
+.rent-events .section-title, .rent-tech .section-title, .rent-gallery .section-title, .rent-press .section-title { max-width: 16ch; }
+.rent-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-top: 24px; }
+.rent-card { display: flex; flex-direction: column; min-width: 0; }
+:root .rent-card-ph { margin: 0 0 18px; }
+.rent-card-ph img, .tech-ph img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-md); }
+:root .rent-card-n { font-family: var(--f-mono); font-size: 12px; letter-spacing: .05em; color: var(--c-orange-ink); margin: 0 0 8px; }
+.rent-card-t { font-size: clamp(22px, 2vw, 30px); margin-bottom: 10px; }
+:root .rent-card-d, :root .tech-d { color: var(--c-mute); font-size: 16px; line-height: 1.5; }
+.rent-player-wrap { margin-top: 16px; }
+.rent-player { margin: 0; border-radius: var(--radius); overflow: hidden; background: #000; }
+.rent-player video { width: 100%; display: block; aspect-ratio: 16 / 9; background: #000; }
+.rent-tech { background: var(--c-soft); margin: 0 var(--edge); border-radius: var(--radius); }
+.tech-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-top: 24px; }
+:root .tech-ph { margin: 0 0 16px; }
+.tech-t { font-size: 22px; margin-bottom: 8px; }
+
+/* 360° звук */
+.s360 { position: relative; padding: clamp(32px, 5vw, 72px); border: 1px solid var(--c-ink); border-radius: var(--radius); overflow: hidden; background: radial-gradient(120% 140% at 100% 0%, rgba(219, 77, 55, .14), transparent 55%); }
+:root .s360-badge { display: inline-flex; font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; padding: 8px 14px; border-radius: 99px; background: var(--c-orange); color: var(--c-white); margin: 0 0 24px; }
+.s360 .section-lead { margin-bottom: 0; }
+
+/* галерея */
+.gal-filter { margin: 8px 0 24px; gap: 8px; }
+:root .gal-filter .wp-block-button__link { padding: 10px 18px; font-size: 13px; font-family: var(--f-mono); border-color: var(--c-line); min-height: 44px; }
+:root .gal-filter .is-active .wp-block-button__link { background: var(--c-ink); color: var(--c-white); border-color: var(--c-ink); }
+.gal-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.gal-item[hidden] { display: none; }
+:root .gal-item { margin: 0; overflow: hidden; border-radius: var(--radius-sm); }
+.gal-item a { display: block; }
+.gal-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .5s cubic-bezier(.22, .61, .36, 1); }
+@media (hover: hover) { .gal-item:hover img { transform: scale(1.05); } }
+.gl { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, .94); padding: 56px 72px; }
+.gl[hidden] { display: none; }
+body.gl-open { overflow: hidden; }
+.gl figure { margin: 0; max-width: 100%; max-height: 100%; text-align: center; }
+.gl img { max-width: 100%; max-height: calc(100vh - 150px); border-radius: var(--radius-sm); display: inline-block; }
+.gl figcaption { margin-top: 14px; color: #bbb; font-family: var(--f-mono); font-size: 12px; }
+.gl button { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #fff; background: transparent; color: #fff; font-size: 28px; line-height: 46px; cursor: pointer; transition: background .2s, color .2s; }
+.gl button:hover { background: #fff; color: #000; }
+.gl-x { top: 16px; right: 16px; } .gl-p { left: 16px; top: 50%; transform: translateY(-50%); } .gl-n { right: 16px; top: 50%; transform: translateY(-50%); }
+
+/* СМИ: пока нет ссылок — блока на странице нет */
+.section.rent-press.is-empty { display: none; }
+.press-slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+
+/* заявка на аренду */
+.rent-cta .rent-cta-card { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 32px; align-items: start; background: var(--c-ink); color: var(--c-white); border-radius: var(--radius); padding: clamp(28px, 4.4vw, 72px); }
+.rent-cta .rent-cta-card > * { min-width: 0; }
+.rent-cta-text { grid-column: 1 / 6; }
+.rent-cta-form { grid-column: 6 / -1; }
+.rent-cta .section-title { font-size: clamp(34px, 4.8vw, 72px); max-width: 10ch; }
+.rent-cta .section-lead { color: var(--c-mute-inv); }
+.rent-cta .bf-field label, .rent-cta .bf-consent { color: var(--c-mute-inv); }
+.rent-cta .bf-field input, .rent-cta .bf-field select, .rent-cta .bf-field textarea { background: rgba(255, 255, 255, .06); color: var(--c-white); border-color: rgba(255, 255, 255, .4); color-scheme: dark; }
+.rent-cta .bf-field input:focus, .rent-cta .bf-field select:focus, .rent-cta .bf-field textarea:focus { border-color: var(--c-orange-bright); box-shadow: 0 0 0 4px rgba(247, 147, 30, .25); }
+.rent-cta .bf-error, .rent-cta .bf-status a { color: var(--c-orange-bright); }
+.rent-cta .bf-consent a, .rent-cta .bf-status { color: var(--c-white); }
+.rent-cta .bf-submit:hover { background: var(--c-white); border-color: var(--c-white); color: var(--c-ink); }
+.rent-cta .btn-primary .wp-block-button__link:hover { background: var(--c-white); border-color: var(--c-white); color: var(--c-ink); }
+
+@media (max-width: 1024px) {
+  .rent-cards, .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rent-cta-text, .rent-cta-form { grid-column: 1 / -1; }
+}
+@media (max-width: 781px) {
+  .rent-hero-inner { min-height: 82svh; }
+  .gal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .gl { padding: 64px 12px; } .gl-p { left: 8px; top: auto; bottom: 12px; transform: none; } .gl-n { right: 8px; top: auto; bottom: 12px; transform: none; }
+  .rent-tech { margin: 0 var(--edge); }
+}
+@media (max-width: 520px) { .rent-cards, .tech-grid { grid-template-columns: 1fr; } }
+
+/* главная: кнопка к аренде, портфолио, видео «Что у нас происходит» */
+.space-cta { margin-top: 32px; justify-content: center; }
+.benefit-cta { margin-top: 24px; }
+.shows-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 32px; align-items: center; }
+.shows-grid > * { min-width: 0; }
+.shows-text { grid-column: 1 / 6; }
+.shows-video { grid-column: 6 / -1; }
+.shows .section-lead { max-width: 40ch; margin-bottom: 0; }
+@media (max-width: 1024px) { .shows-text, .shows-video { grid-column: 1 / -1; } }
