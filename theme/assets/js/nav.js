@@ -20,6 +20,37 @@
   var nav = header && header.querySelector('.nav');
   if (!header || !nav) return;
 
+  /* Текущий раздел в меню: пока секция в верхней трети экрана, её пункт подчёркнут (aria-current). */
+  var links = Array.prototype.filter.call(nav.querySelectorAll('a[href*="#"]'), function (a) {
+    var id = a.getAttribute('href').split('#')[1];
+    return id && document.getElementById(id);
+  });
+  if (links.length && 'IntersectionObserver' in window) {
+    var setCurrent = function (id) {
+      links.forEach(function (a) {
+        var on = a.getAttribute('href').split('#')[1] === id;
+        a.classList.toggle('is-current', on);
+        if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    };
+    var secIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setCurrent(e.target.id); });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    links.forEach(function (a) { secIo.observe(document.getElementById(a.getAttribute('href').split('#')[1])); });
+  }
+
+  /* На телефоне шапка уезжает при прокрутке вниз и возвращается при прокрутке вверх —
+     экран маленький, а меню нужно только когда к нему тянутся. На десктопе остаётся на месте. */
+  var lastY = window.scrollY, hideFrom = 160;
+  var wrap = header.closest('header') || header;
+  window.addEventListener('scroll', function () {
+    if (window.innerWidth > 781 || header.classList.contains('is-open')) { wrap.classList.remove('is-hidden'); lastY = window.scrollY; return; }
+    var y = window.scrollY;
+    if (y > lastY + 6 && y > hideFrom) wrap.classList.add('is-hidden');
+    else if (y < lastY - 6) wrap.classList.remove('is-hidden');
+    lastY = y;
+  }, { passive: true });
+
   var isKz = document.documentElement.lang === 'kk';
   var btn = document.createElement('button');
   btn.type = 'button';

@@ -2,7 +2,7 @@
 """Статичный слепок сайта для демо (GitHub Pages / Netlify / Artifact).
 python tools/export-static.py  ->  dist/index.html (RU), dist/kz/index.html (KZ), dist/assets, dist/style.css
 """
-import base64, glob, hashlib, os, re, shutil, stat, urllib.request
+import base64, glob, hashlib, os, re, shutil, stat, urllib.error, urllib.request
 
 BASE = 'http://localhost:8890'
 # публичный адрес демо: нужен для og:url / og:image. Меняется переменной SITE_URL
@@ -46,7 +46,12 @@ def harden(html):
 
 def export(path, out_file, prefix):
     """prefix — относительный путь к корню dist от страницы ('' для корня, '../' для /kz/)."""
-    html = urllib.request.urlopen(BASE + path).read().decode('utf-8')
+    try:
+        html = urllib.request.urlopen(BASE + path).read().decode('utf-8')
+    except urllib.error.HTTPError as err:
+        if err.code != 404:
+            raise
+        html = err.read().decode('utf-8')   # фирменная страница 404 — её тоже забираем
 
     # стили темы — одним <link>, стили WP уже инлайновые; скрипты и служебные <link> не нужны.
     # WordPress отдаёт сжатую копию style.css из uploads (inc/assets.php) — её и берём.
@@ -120,7 +125,13 @@ export('/raspisanie/', f'{OUT}/raspisanie/index.html', '../')
 export('/raspisanie-kz/', f'{OUT}/raspisanie-kz/index.html', '../')
 export('/arenda/', f'{OUT}/arenda/index.html', '../')
 export('/arenda-kz/', f'{OUT}/arenda-kz/index.html', '../')
+# GitHub Pages отдаёт /404.html на любой несуществующий адрес, в том числе внутри папок,
+# поэтому ссылки и стили на ней — абсолютные (от SITE), а не относительные.
+export('/net-takoy-stranicy/', f'{OUT}/404.html', SITE)
 shutil.copytree('theme/assets', f'{OUT}/assets')
+# манифест: start_url от корня домена ведёт мимо подпапки демо — делаем относительным к сайту
+mf = f'{OUT}/assets/site.webmanifest'
+open(mf, 'w', encoding='utf-8').write(open(mf, encoding='utf-8').read().replace('"start_url": "/"', '"start_url": "../"'))
 # пути в сжатой копии от корня сайта (/wp-content/themes/biart-mono/assets/…) -> от dist/style.css
 open(f'{OUT}/style.css', 'w', encoding='utf-8').write(CSS.replace(THEME, '') if CSS else open('theme/style.css', encoding='utf-8').read())
 open(f'{OUT}/.nojekyll', 'w').close()

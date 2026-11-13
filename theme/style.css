@@ -278,8 +278,8 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 /* цветные персонажи — как нарисованы, без фильтров */
 :root .hero-art { position: absolute; z-index: 1; right: 2.5%; bottom: 0; width: clamp(280px, 44vw, 700px); margin: 0; pointer-events: none; }
 .hero-art img { width: 100%; }
-:root .hero-ghost {
-  position: absolute; z-index: 0; left: 0; right: 0; bottom: -.17em; margin: 0; text-align: center; pointer-events: none; user-select: none;
+.hero-card::after {
+  content: "BIART"; position: absolute; z-index: 0; left: 0; right: 0; bottom: -.17em; text-align: center; pointer-events: none; user-select: none;
   font-size: 30vw; line-height: .8; font-weight: 900; letter-spacing: -.06em; color: transparent; -webkit-text-stroke: 1px rgba(0, 0, 0, .09);
 }
 
@@ -1065,3 +1065,23 @@ body.gl-open { overflow: hidden; }
 
 :root .hero-lead { max-width: 34ch; margin-bottom: 22px; }
 :root .hero-title { margin-top: clamp(20px, 3.2vw, 44px); margin-bottom: clamp(16px, 2.4vw, 32px); }
+
+/* ============================================================
+   АУДИТ: навигация, печать, доступность
+   ============================================================ */
+/* якоря из меню не прячутся под липкой шапкой */
+[id] { scroll-margin-top: calc(var(--header-h) + var(--edge) + 28px); }
+/* текущий раздел в меню */
+.site-header .nav a.is-current::before { transform: scaleX(1); }
+@media (max-width: 1180px) { .site-header .nav a.is-current { color: var(--c-orange-ink); } }
+/* шапка на телефоне уезжает при прокрутке вниз (nav.js) */
+header.wp-block-template-part { transition: transform .3s cubic-bezier(.22, .61, .36, 1); }
+header.wp-block-template-part.is-hidden { transform: translateY(-110%); }
+@media (prefers-reduced-motion: reduce) { header.wp-block-template-part { transition: none; } }
+/* печать: только содержание */
+@media print {
+  header.wp-block-template-part, .wa-float, .rent-bg, .hero-ticker, .carousel .car-btn, .car-meta, video, .nav-toggle { display: none !important; }
+  .section, .benefits, .teachers, .ask, .site-footer, .price-featured, .hero-card { background: #fff !important; color: #000 !important; border-radius: 0 !important; margin: 0 !important; padding: 16px 0 !important; }
+  .teachers *, .benefits *, .ask *, .site-footer * { color: #000 !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 12px; color: #555; }
+}

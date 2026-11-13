@@ -41,7 +41,7 @@ function biart_is_kz(): bool {
  * заголовок, описание и hreflang у внутренних страниц свои.
  */
 function biart_is_kz_lang(): bool {
-	return biart_is_kz() || is_page_template( 'page-kz' );
+	return biart_is_kz() || is_page_template( 'page-kz' ) || is_page_template( 'page-rent-kz' );
 }
 
 /** Адрес казахской версии: ищем страницу по шаблону, а не склеиваем /kz/ руками. */
@@ -84,6 +84,7 @@ function biart_seo_head(): void {
 	}
 	$o     = biart_org();
 	$kz    = biart_is_kz();
+	$kzl   = biart_is_kz_lang();   // внутренние казахские страницы: locale и alt — на казахском
 	// Юридические страницы — это тоже is_page(), и раньше им доставались описание,
 	// заголовок и og:url главной. Теперь у каждой свои.
 	$inner = ! is_front_page() && ! $kz;
@@ -95,6 +96,11 @@ function biart_seo_head(): void {
 		$url   = get_permalink();
 		// У юридических страниц описание не нужно, а расписание ищут отдельно.
 		$desc  = biart_schedule_desc();
+		if ( is_page( array( 'arenda', 'arenda-kz' ) ) ) {
+			$desc = $kzl
+				? 'BIART (Music Hall) Space — Астанадағы концерт залы, студиялар мен сыныптарды жалға беру: конференциялар, концерттер, спектакльдер. Өтінім қалдырыңыз.'
+				: 'BIART (Music Hall) Space — аренда концертного зала, студий и классов в Астане: конференции, концерты, спектакли. Оставьте заявку.';
+		}
 	}
 	$img   = get_template_directory_uri() . '/assets/img/og.jpg';
 	$icons = get_template_directory_uri() . '/assets/img/';
@@ -108,6 +114,10 @@ function biart_seo_head(): void {
 		echo '<link rel="alternate" hreflang="ru" href="' . esc_url( home_url( '/' ) ) . '">' . PHP_EOL;
 		echo '<link rel="alternate" hreflang="kk" href="' . esc_url( biart_kz_url() ) . '">' . PHP_EOL;
 		echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( home_url( '/' ) ) . '">' . PHP_EOL;
+	} elseif ( is_page( array( 'arenda', 'arenda-kz' ) ) ) {
+		echo '<link rel="alternate" hreflang="ru" href="' . esc_url( home_url( '/arenda/' ) ) . '">' . PHP_EOL;
+		echo '<link rel="alternate" hreflang="kk" href="' . esc_url( home_url( '/arenda-kz/' ) ) . '">' . PHP_EOL;
+		echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( home_url( '/arenda/' ) ) . '">' . PHP_EOL;
 	} elseif ( is_page( array( 'raspisanie', 'raspisanie-kz' ) ) ) {
 		// Расписание существует на двух языках — без этой пары поиск считает
 		// их разными страницами, а не переводами одной.
@@ -118,7 +128,7 @@ function biart_seo_head(): void {
 
 	echo '<meta property="og:type" content="website">' . PHP_EOL;
 	echo '<meta property="og:site_name" content="BIART">' . PHP_EOL;
-	echo '<meta property="og:locale" content="' . ( $kz ? 'kk_KZ' : 'ru_RU' ) . '">' . PHP_EOL;
+	echo '<meta property="og:locale" content="' . ( $kzl ? 'kk_KZ' : 'ru_RU' ) . '">' . PHP_EOL;
 	echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . PHP_EOL;
 	if ( '' !== $desc ) {
 		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . PHP_EOL;
@@ -127,7 +137,7 @@ function biart_seo_head(): void {
 	echo '<meta property="og:image" content="' . esc_url( $img ) . '">' . PHP_EOL;
 	echo '<meta property="og:image:width" content="1200">' . PHP_EOL;
 	echo '<meta property="og:image:height" content="630">' . PHP_EOL;
-	echo '<meta property="og:image:alt" content="' . esc_attr( $kz ? 'Астанадағы BIART мектебі' : 'Школа BIART в Астане' ) . '">' . PHP_EOL;
+	echo '<meta property="og:image:alt" content="' . esc_attr( $kzl ? 'Астанадағы BIART мектебі' : 'Школа BIART в Астане' ) . '">' . PHP_EOL;
 	echo '<meta name="twitter:card" content="summary_large_image">' . PHP_EOL;
 
 	echo '<link rel="icon" href="' . esc_url( $icons . 'favicon.ico' ) . '" sizes="any">' . PHP_EOL;

@@ -116,14 +116,17 @@ function biart_security_headers(): void {
 	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()' );
 
 	if ( ! is_user_logged_in() ) {
+		// Внешние сервисы попадают в политику только если подключены в wp-config (иначе — ни одного стороннего хоста).
+		$ym  = ( defined( 'BIART_METRIKA_ID' ) && BIART_METRIKA_ID ) ? ' https://mc.yandex.ru' : '';
+		$crm = ( defined( 'BIART_CRM_URL' ) && BIART_CRM_URL ) ? ' https://script.google.com https://script.googleusercontent.com' : '';
 		$csp = array(
 			"default-src 'self'",
-			"img-src 'self' data:",
+			"img-src 'self' data:" . $ym,
 			"media-src 'self'",
 			"style-src 'self' 'unsafe-inline'",   // инлайн-стили блоков WP
-			"script-src 'self' 'unsafe-inline'",  // инлайн-скрипты WP (skip-link и т.п.)
+			"script-src 'self' 'unsafe-inline'" . $ym,  // инлайн-скрипты WP (skip-link и т.п.)
 			"font-src 'self'",
-			"connect-src 'self'",
+			"connect-src 'self'" . $ym . ( $ym ? ' https://mc.yandex.com' : '' ) . $crm,
 			"object-src 'none'",
 			"base-uri 'self'",
 			"form-action 'self'",

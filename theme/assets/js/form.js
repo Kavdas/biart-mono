@@ -69,6 +69,9 @@
       return ok;
     };
 
+    // дата события — не раньше сегодняшнего дня
+    if (f.date && f.date.type === 'date') f.date.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
     f.phone.addEventListener('input', function () {
       var pos = f.phone.selectionStart, atEnd = pos === f.phone.value.length;
       f.phone.value = fmtPhone(f.phone.value);
@@ -103,7 +106,8 @@
         var body = new URLSearchParams({
           source: variant, page: location.pathname, name: clean(f.name.value, 60), phone: fmtPhone(f.phone.value),
           event: f.event ? clean(f.event.value, 60) : '', date: f.date ? clean(f.date.value, 12) : '', guests: f.guests ? clean(f.guests.value, 6) : '',
-          age: f.age ? clean(f.age.value, 40) : '', direction: f.direction ? clean(f.direction.value, 60) : '', message: q, lang: lang
+          age: f.age ? clean(f.age.value, 40) : '', direction: f.direction ? clean(f.direction.value, 60) : '', message: q, lang: lang,
+          token: form.getAttribute('data-crm-token') || ''
         });
         try { fetch(crm, { method: 'POST', mode: 'no-cors', body: body, keepalive: true }).catch(function () {}); } catch (e) { /* таблица недоступна — заявка всё равно уйдёт в WhatsApp */ }
       }

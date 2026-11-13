@@ -19,6 +19,11 @@ const BIART_WA_NUMBER = '77007103300';
 if ( ! defined( 'BIART_CRM_URL' ) ) {
 	define( 'BIART_CRM_URL', '' );
 }
+// Тот же токен — в свойствах Apps Script (TOKEN). Он виден в коде страницы, поэтому это фильтр от случайных
+// ботов, бьющих по адресам скриптов, а не секрет; настоящая защита — лимиты в самом скрипте.
+if ( ! defined( 'BIART_CRM_TOKEN' ) ) {
+	define( 'BIART_CRM_TOKEN', '' );
+}
 
 function biart_form_shortcode( $atts ): string {
 	$a    = shortcode_atts( array( 'variant' => 'ask', 'lang' => '' ), $atts, 'biart_form' );
@@ -42,7 +47,7 @@ function biart_form_shortcode( $atts ): string {
 	ob_start();
 	?>
 	<form class="biart-form is-<?php echo esc_attr( $kind ); ?>" novalidate
-		data-wa="<?php echo esc_attr( BIART_WA_NUMBER ); ?>" data-lang="<?php echo esc_attr( $kk ? 'kk' : 'ru' ); ?>" data-variant="<?php echo esc_attr( $kind ); ?>" data-crm="<?php echo esc_url( BIART_CRM_URL ); ?>">
+		data-wa="<?php echo esc_attr( BIART_WA_NUMBER ); ?>" data-lang="<?php echo esc_attr( $kk ? 'kk' : 'ru' ); ?>" data-variant="<?php echo esc_attr( $kind ); ?>" data-crm="<?php echo esc_url( BIART_CRM_URL ); ?>" data-crm-token="<?php echo esc_attr( BIART_CRM_TOKEN ); ?>">
 		<input type="text" name="website" class="bf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 		<div class="bf-grid">
 			<div class="bf-field">

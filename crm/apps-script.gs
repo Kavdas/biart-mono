@@ -34,6 +34,24 @@ function setup_(ss) {
   return sh;
 }
 
+/**
+ * Лимиты: скрипт доступен всем (адрес публичный), поэтому заявки ограничены — не больше 40 за 10 минут
+ * со всех посетителей и не больше одной с одного телефона за 10 минут. Токен (свойство скрипта TOKEN,
+ * тот же в BIART_CRM_TOKEN сайта) отсекает ботов, бьющих по случайным адресам; при пустом TOKEN не проверяется.
+ */
+function allowed_(p) {
+  var token = PropertiesService.getScriptProperties().getProperty('TOKEN') || '';
+  if (token && String(p.token || '') !== token) return false;
+  var cache = CacheService.getScriptCache();
+  var total = Number(cache.get('rl:total') || 0);
+  if (total >= 40) return false;
+  var phoneKey = 'rl:' + String(p.phone || '').replace(/\D/g, '');
+  if (cache.get(phoneKey)) return false;
+  cache.put('rl:total', String(total + 1), 600);
+  cache.put(phoneKey, '1', 600);
+  return true;
+}
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
@@ -41,6 +59,7 @@ function doPost(e) {
     var p = (e && e.parameter) || {};
     // honeypot и пустые заявки
     if (p.website) return ContentService.createTextOutput('ok');
+    if (!allowed_(p)) return ContentService.createTextOutput('limit');
     var name = clean_(p.name, MAX.name), phone = clean_(p.phone, MAX.phone);
     if (name.length < 2 || phone.replace(/\D/g, '').length < 10) return ContentService.createTextOutput('bad');
     var ss = SpreadsheetApp.getActiveSpreadsheet();
