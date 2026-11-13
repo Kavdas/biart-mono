@@ -74,6 +74,9 @@ def export(path, out_file, prefix):
     # без закрывающей кавычки: адрес бывает и с якорем — /raspisanie/#11-13
     html = html.replace('href="/raspisanie/', 'href="%sraspisanie/' % (prefix or './'))
     html = html.replace('href="/raspisanie-kz/', 'href="%sraspisanie-kz/' % (prefix or './'))
+    # аренда (и любая другая внутренняя страница): путь от корня сайта -> относительный, иначе на GitHub Pages
+    # (сайт лежит в /biart-mono/) ссылка уходит на kavdas.github.io/arenda/ и даёт 404
+    html = re.sub(r'href="/(arenda-kz|arenda)/', lambda m: 'href="%s%s/' % (prefix or './', m.group(1)), html)
     # якоря меню абсолютные, чтобы работать с внутренних страниц
     html = re.sub(r'href="/kz/#', 'href="%skz/#' % (prefix or './'), html)
     html = re.sub(r'href="/#', 'href="%s#' % (prefix or './'), html)
@@ -89,6 +92,9 @@ def export(path, out_file, prefix):
     html = re.sub(r'<link rel="canonical"[^>]*>\s*', '', html)
     html = html.replace('</head>', '<link rel="canonical" href="%s">\n</head>' % page_url, 1)
 
+    left = re.findall(r'href="(/[a-z][^"]*)"', html)
+    if left:
+        raise SystemExit('Остались абсолютные ссылки (сломаются на GitHub Pages): %s' % sorted(set(left))[:8])
     html = harden(html)
 
     os.makedirs(os.path.dirname(out_file) or '.', exist_ok=True)
