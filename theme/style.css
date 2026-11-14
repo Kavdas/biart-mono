@@ -882,7 +882,7 @@ body.tm-open { overflow: hidden; }
   :root .teacher-more { padding: 12px 0; }
   .bf-consent { grid-template-columns: 24px 1fr; }
   .bf-consent input { width: 24px; height: 24px; }
-  .bf-consent a, .review-meta a, .section-lead a, .dir-foot a, .contact-row a { padding: 6px 0; display: inline-block; }
+  .bf-consent a, .review-meta a, .section-lead a, .dir-foot p a, .contact-row a { padding: 6px 0; display: inline-block; }
   .faq-item summary { min-height: 56px; }
   .tm-nav button, .staff-filter button { min-height: 44px; }
   .tm-close { width: 44px; height: 44px; }
