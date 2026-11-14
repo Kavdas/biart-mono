@@ -131,7 +131,8 @@ export('/net-takoy-stranicy/', f'{OUT}/404.html', SITE)
 shutil.copytree('theme/assets', f'{OUT}/assets')
 # манифест: start_url от корня домена ведёт мимо подпапки демо — делаем относительным к сайту
 mf = f'{OUT}/assets/site.webmanifest'
-open(mf, 'w', encoding='utf-8').write(open(mf, encoding='utf-8').read().replace('"start_url": "/"', '"start_url": "../"'))
+manifest = open(mf, encoding='utf-8').read()          # сначала читаем, потом пишем: open(..., 'w') обнуляет файл
+open(mf, 'w', encoding='utf-8').write(manifest.replace('"start_url": "/"', '"start_url": "../"'))
 # пути в сжатой копии от корня сайта (/wp-content/themes/biart-mono/assets/…) -> от dist/style.css
 open(f'{OUT}/style.css', 'w', encoding='utf-8').write(CSS.replace(THEME, '') if CSS else open('theme/style.css', encoding='utf-8').read())
 open(f'{OUT}/.nojekyll', 'w').close()
