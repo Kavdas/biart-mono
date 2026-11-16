@@ -970,7 +970,6 @@ body.tm-open { overflow: hidden; }
 :root .rent-facts li { position: relative; padding: 16px 0 16px 28px; border-top: 1px solid rgba(255, 255, 255, .28); margin: 0; }
 .rent-facts li::before { content: ""; position: absolute; left: 0; top: 24px; width: 9px; height: 9px; background: var(--c-orange); }
 @media (max-width: 1024px) { :root .rent-facts { margin-top: 32px; } }
-:root .rent-lead { font-size: clamp(18px, 1.8vw, 26px); line-height: 1.25; letter-spacing: -.02em; font-weight: 500; max-width: 38ch; margin: 0 0 32px; color: rgba(255, 255, 255, .9); }
 .rent-hero .btn-ghost .wp-block-button__link, .rent-hero .is-style-outline .wp-block-button__link { background: transparent; color: var(--c-white); border-color: rgba(255, 255, 255, .6); }
 .rent-hero .btn-ghost .wp-block-button__link:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
 
@@ -989,9 +988,6 @@ body.tm-open { overflow: hidden; }
 .tech-t { font-size: 22px; margin-bottom: 8px; }
 
 /* 360° звук */
-.s360 { position: relative; padding: clamp(32px, 5vw, 72px); border: 1px solid var(--c-ink); border-radius: var(--radius); overflow: hidden; background: radial-gradient(120% 140% at 100% 0%, rgba(219, 77, 55, .14), transparent 55%); }
-:root .s360-badge { display: inline-flex; font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; padding: 8px 14px; border-radius: 99px; background: var(--c-orange); color: var(--c-white); margin: 0 0 24px; }
-.s360 .section-lead { margin-bottom: 0; }
 
 /* галерея */
 .gal-filter { margin: 8px 0 24px; gap: 8px; }
