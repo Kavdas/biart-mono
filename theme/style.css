@@ -369,7 +369,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .wp-block-columns.benefit-grid > .wp-block-column.benefit { flex: none !important; width: auto !important; min-width: 0; border-top: 1px solid var(--c-line-inv); padding-top: 28px; }
 :root .benefit-num { font-family: var(--f-serif); font-style: italic; font-size: clamp(56px, 6vw, 96px); line-height: .9; letter-spacing: -.03em; color: var(--c-orange); margin: 0 0 56px; }
 .benefit h3 { margin-bottom: 18px; font-size: clamp(26px, 2.5vw, 38px); max-width: 14ch; }
-.benefit p:last-child { color: var(--c-mute-inv); line-height: 1.55; font-size: 16px; }
+.benefit h3 + p { color: var(--c-mute-inv); line-height: 1.55; font-size: 16px; }
 @media (max-width: 1024px) { .wp-block-columns.benefit-grid { grid-template-columns: 1fr; gap: 44px; } :root .benefit-num { margin-bottom: 20px; } }
 
 /* ============================================================
@@ -1038,15 +1038,13 @@ body.gl-open { overflow: hidden; }
 }
 @media (max-width: 520px) { .rent-cards, .tech-grid { grid-template-columns: 1fr; } }
 
-/* главная: кнопка к аренде, портфолио, видео «Что у нас происходит» */
+/* главная: кнопка к аренде, ссылка «Портфолио» в преимуществах */
 .space-cta { margin-top: 32px; justify-content: center; }
-.benefit-cta { margin-top: 24px; }
-.shows-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 32px; align-items: center; }
-.shows-grid > * { min-width: 0; }
-.shows-text { grid-column: 1 / 6; }
-.shows-video { grid-column: 6 / -1; }
-.shows .section-lead { max-width: 40ch; margin-bottom: 0; }
-@media (max-width: 1024px) { .shows-text, .shows-video { grid-column: 1 / -1; } }
+:root .benefit-link { margin-top: 20px; font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.benefit-link a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0; color: var(--c-white); text-decoration: none; border-bottom: 1px solid var(--c-orange); }
+.benefit-link a::after { content: "↗"; color: var(--c-orange); transition: transform .2s; }
+.benefit-link a:hover { color: var(--c-orange); }
+.benefit-link a:hover::after { transform: translate(2px, -2px); }
 
 /* ---- тексты и порядок: рейтинг в первом экране, условия абонемента обычным шрифтом ---- */
 .hero-card > .hero-rating { grid-column: 1 / 7; grid-row: 5; margin: 22px 0 0; align-self: start; }
