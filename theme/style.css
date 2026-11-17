@@ -383,19 +383,12 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .space-block .carousel .m img { height: var(--car-h); width: calc(var(--car-h) * 1.5); }
 .space-block .carousel .m.m-tall img { width: calc(var(--car-h) * .67); }
 /* подпись «Иллюстрация» на картинках, нарисованных не на камеру */
-:root .m.is-illu, :root .dir-photo.is-illu { position: relative; }
-.m.is-illu::after, .hpv.is-illu::after { content: "Иллюстрация"; position: absolute; left: 12px; bottom: 12px; z-index: 2; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; line-height: 1; padding: 7px 11px; border-radius: 99px; background: rgba(255, 255, 255, .92); color: var(--c-ink); pointer-events: none; }
-.hpv.is-illu::after { left: 12px; bottom: 12px; }
-:root:lang(kk) .m.is-illu::after, :root:lang(kk) .hpv.is-illu::after { content: "Иллюстрация"; }
-
-/* плавающее превью у курсора (hover-preview.js): строки «Направлений» */
-.hpv { position: fixed; left: 0; top: 0; z-index: 80; width: 300px; margin: -190px 0 0 40px; pointer-events: none; opacity: 0; transition: opacity .25s; will-change: transform; }
-.hpv.is-on { opacity: 1; }
-.hpv img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-md); transform: scale(.9) rotate(-3deg); transition: transform .45s cubic-bezier(.22, .61, .36, 1); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .55); }
-.hpv.is-on img { transform: none; }
+:root .m.is-illu { position: relative; }
+.m.is-illu::after { content: "Иллюстрация"; position: absolute; left: 12px; bottom: 12px; z-index: 2; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; line-height: 1; padding: 7px 11px; border-radius: 99px; background: rgba(255, 255, 255, .92); color: var(--c-ink); pointer-events: none; }
+:root:lang(kk) .m.is-illu::after { content: "Иллюстрация"; }
 
 /* ============================================================
-   НАПРАВЛЕНИЯ: список с иллюстрациями и превью по наведению
+   НАПРАВЛЕНИЯ: список с иллюстрациями
    ============================================================ */
 :root .dir-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 32px; margin-bottom: clamp(48px, 6vw, 88px); align-items: start; }
 .dir-head > .section-title { grid-column: 1 / 8; grid-row: 1; margin: 0; max-width: none; font-size: clamp(48px, 8.4vw, 138px); line-height: .84; letter-spacing: -.06em; }
@@ -428,13 +421,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 :root .dir-let { margin: 0; }
 .dir-let img { height: clamp(150px, 17vw, 260px); width: auto; transition: transform .5s cubic-bezier(.22, .61, .36, 1); }
 @media (hover: hover) { .dir-row:hover .dir-let img { transform: rotate(-4deg) scale(1.05); } }
-:root .dir-photo { margin: 0; width: 120px; }
-.dir-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
 .dir-row .dir-media { flex-direction: column; align-items: flex-end; gap: 12px; }
-.has-hpv .dir-photo { display: none; }
-.has-hpv .dir-row.is-open .dir-photo { display: block; width: min(100%, 360px); order: -1; }
-.has-hpv .dir-row.is-open .dir-photo img { aspect-ratio: 16 / 10; border-radius: var(--radius-sm); }
-.has-hpv .dir-row.is-tappable { cursor: pointer; }
 :root .dir-foot { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: center; border-top: 1px solid var(--c-ink); padding-top: 40px; }
 .dir-foot > p { grid-column: 1 / 8; color: var(--c-mute); font-size: 18px; max-width: 56ch; }
 .dir-foot > .wp-block-buttons { grid-column: 9 / -1; justify-content: flex-end; }
@@ -493,7 +480,12 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
   .teach-head > .section-title, .teach-head > .section-lead { grid-column: 1 / -1; }
   .teach-head > .section-lead { margin-top: 20px; }
 }
-@media (max-width: 520px) { .wp-block-columns.teacher-grid { grid-template-columns: 1fr; } }
+/* телефон: команда — горизонтальная лента со свайпом (виден край следующей карточки), а не столбец из пяти высоких портретов */
+@media (max-width: 520px) {
+  .wp-block-columns.teacher-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; gap: 14px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 6px; scrollbar-width: none; }
+  .wp-block-columns.teacher-grid::-webkit-scrollbar { display: none; }
+  .wp-block-columns.teacher-grid > .wp-block-column { scroll-snap-align: start; }
+}
 
 /* ============================================================
    АБОНЕМЕНТЫ
@@ -836,7 +828,7 @@ body.tm-open { overflow: hidden; }
 .has-par .about-photo img {
   --zoom: 1.12; --par: 0px; transform: translateY(var(--par)) scale(var(--zoom)); will-change: auto;
 }
-.has-par .about-photo, .has-par .dir-media .dir-photo, .has-par .ev-ph { overflow: hidden; }
+.has-par .about-photo, .has-par .ev-ph { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .has-par .about-photo img { transform: none; } }
 
 /* редактор: канвас похож на фронт */
@@ -870,6 +862,11 @@ body.tm-open { overflow: hidden; }
 .contact-info .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } .contact-grid > .contact-map { min-height: 340px; } }
 
+/* абзацы без «висячих» слов в последней строке (заголовкам balance задан выше) */
+:root p, :root li { text-wrap: pretty; }
+/* телефон: при переходе по Tab/автопрокрутке поле не прячется под плавающей кнопкой «Записаться» */
+@media (max-width: 781px) { html { scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); } }
+
 /* ---- телефон: зоны нажатия не меньше 44 px (рекомендация Apple/Google) ---- */
 @media (max-width: 781px) {
   .wp-block-button__link { min-height: 44px; }
@@ -884,7 +881,13 @@ body.tm-open { overflow: hidden; }
   :root .teacher-more { padding: 12px 0; }
   .bf-consent { grid-template-columns: 24px 1fr; }
   .bf-consent input { width: 24px; height: 24px; }
-  .bf-consent a, .review-meta a, .section-lead a, .dir-foot p a, .contact-row a { padding: 6px 0; display: inline-block; }
+  /* ссылки внутри предложения не раздуваем (исключение WCAG 2.5.5) — строки абзаца остаются ровными;
+     отдельные короткие ссылки (2ГИС, карты, почта) получают невидимую зону тапа вокруг, без сдвига вёрстки */
+  .review-meta a, .contact-row a { position: relative; }
+  .review-meta a::after, .contact-row a::after { content: ""; position: absolute; inset: -12px -6px; }
+  /* мелкие моноширинные подписи на телефоне — не меньше 12 px */
+  :root .eyebrow, :root .pill, :root .teacher-role, :root .teacher-more, :root .contact-row strong, :root .bf-field label, :root .schedule .sch-d, .about-media .wp-element-caption, .site-header .lang a { font-size: 12px; }
+  .bf-field label small { font-size: 11.5px; }
   .faq-item summary { min-height: 56px; }
   .tm-nav button, .staff-filter button { min-height: 44px; }
   .tm-close { width: 44px; height: 44px; }

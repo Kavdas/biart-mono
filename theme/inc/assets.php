@@ -28,7 +28,6 @@ function biart_img_sizes( string $figure_class ): string {
 		'rent-card-ph' => '(max-width: 781px) 90vw, 600px',
 		'tech-ph'     => '(max-width: 781px) 90vw, 600px',
 		'staff-photo' => '(max-width: 781px) 44vw, 330px',
-		'dir-photo'   => '600px',
 		'ev-ph'       => '600px',
 	);
 	foreach ( $map as $class => $sizes ) {

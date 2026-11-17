@@ -3,7 +3,17 @@ require('./dns-fix.cjs');
 const { execFileSync } = require('child_process');
 const path = require('path');
 const wpEnv = path.join(__dirname, '..', 'node_modules', '@wordpress', 'env', 'bin', 'wp-env');
-const wp = (args, opts = {}) => execFileSync(process.execPath, ['-r', path.join(__dirname, 'dns-fix.cjs'), wpEnv, 'run', 'cli', 'wp', ...args], { encoding: 'utf8', ...opts });
+// wp-env иногда падает на сетевом таймауте (RequestError) посреди заливки — повторяем команду, а не бросаем страницы недообновлёнными
+const run = (args, opts) => execFileSync(process.execPath, ['-r', path.join(__dirname, 'dns-fix.cjs'), wpEnv, 'run', 'cli', 'wp', ...args], { encoding: 'utf8', ...opts });
+const wp = (args, opts = {}) => {
+  for (let i = 1; ; i++) {
+    try { return run(args, opts); } catch (e) {
+      if (i >= 4) throw e;
+      console.warn(`wp ${args.slice(0, 2).join(' ')}: сбой, повтор ${i}/3`);
+      execFileSync('sleep', [String(2 * i)]);
+    }
+  }
+};
 const THEME = '/var/www/html/wp-content/themes/biart-mono';
 
 // RU — главная (ищем по слагу: на чистой базе страницы ещё нет)

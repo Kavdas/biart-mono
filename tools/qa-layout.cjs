@@ -14,7 +14,7 @@ const url = process.argv[2] || 'http://localhost:8890/';
     await p.addStyleTag({ content: 'header.wp-block-template-part{position:static!important}.wa-float{display:none!important}' });
     await p.evaluate(() => document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-in')));
     const res = await p.evaluate(() => {
-      const skip = '.hero-ghost,.ticker-line,.hpv,.hero-art,.carousel,.tm,.hero-ticker';
+      const skip = '.hero-ghost,.ticker-line,.hero-art,.carousel,.tm,.hero-ticker';
       const hid = (e) => { for (let n = e; n && n !== document.body; n = n.parentElement) { const c = getComputedStyle(n); if (c.visibility === 'hidden' || c.display === 'none' || c.opacity === '0') return true; } return false; };
       const vis = (e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return r.width > 0 && r.height > 0 && !hid(e) && !e.closest(skip) && cs.position !== 'fixed' && !(e.closest('details:not([open])') && !e.closest('summary')); };
       const els = [...document.querySelectorAll('h1,h2,h3,p,summary,figcaption,.wp-block-button__link,li,em,strong,label,input,select,button')].filter(vis);

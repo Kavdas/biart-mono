@@ -95,14 +95,6 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/dir-tabs.js' ),
 		array( 'strategy' => 'defer' )
 	);
-	// Фото-превью по наведению (пространство, направления): без JS остаются мелкие миниатюры.
-	wp_enqueue_script(
-		'biart-hover-preview',
-		get_template_directory_uri() . '/assets/js/hover-preview.js',
-		array(),
-		(string) filemtime( get_stylesheet_directory() . '/assets/js/hover-preview.js' ),
-		array( 'strategy' => 'defer' )
-	);
 	// Появление блоков и докрутка цифр; уважает prefers-reduced-motion.
 	wp_enqueue_script(
 		'biart-reveal',
