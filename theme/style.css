@@ -952,8 +952,15 @@ body.tm-open { overflow: hidden; }
 /* первый экран: видеофон под вуалью */
 .section.rent-hero { padding: var(--edge) var(--edge) 0; overflow: visible; }
 :root .rent-hero-inner { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--radius); min-height: clamp(560px, calc(100svh - 110px), 820px); display: flex; align-items: flex-end; background: #000; color: var(--c-white); }
-.rent-bg { position: absolute; inset: 0; z-index: 0; margin: 0; }
-.rent-bg video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* фон первого экрана: лента фото зала (rent-strip.js) — три плитки на экране, на телефоне плитка шире */
+.rent-strip { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+:root .rent-strip-track { display: flex; gap: 6px; height: 100%; width: max-content; margin: 0; }
+.rent-strip.is-moving .rent-strip-track { animation: rentStrip var(--strip-dur, 90s) linear infinite; }
+.rent-strip.is-paused .rent-strip-track { animation-play-state: paused; }
+@keyframes rentStrip { to { transform: translateX(calc(-50% - 3px)); } }
+:root .rent-strip-ph { flex: 0 0 auto; width: calc((100vw - 2 * var(--edge) - 12px) / 3); height: 100%; margin: 0; }
+.rent-strip-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 781px) { :root .rent-strip-ph { width: 78vw; } }
 .rent-hero-inner::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, .15) 35%, rgba(0, 0, 0, .78) 100%); pointer-events: none; }
 :root .rent-hero-text { position: relative; z-index: 2; width: 100%; padding: clamp(24px, 4.2vw, 64px); }
 .rent-hero-text .eyebrow { color: var(--c-white); }
@@ -1157,7 +1164,7 @@ header.wp-block-template-part.is-hidden { transform: translateY(-110%); }
 .gal-more[hidden] { display: none; }
 
 @media print {
-  header.wp-block-template-part, .wa-float, .rent-bg, .hero-ticker, .carousel .car-btn, .car-meta, video, .nav-toggle { display: none !important; }
+  header.wp-block-template-part, .wa-float, .rent-strip, .hero-ticker, .carousel .car-btn, .car-meta, video, .nav-toggle { display: none !important; }
   .section, .benefits, .teachers, .ask, .site-footer, .price-featured, .hero-card { background: #fff !important; color: #000 !important; border-radius: 0 !important; margin: 0 !important; padding: 16px 0 !important; }
   .teachers *, .benefits *, .ask *, .site-footer * { color: #000 !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 12px; color: #555; }

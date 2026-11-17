@@ -7,6 +7,7 @@ python3 tools/build-rent.py        затем: npm run seed
 или у владельца. Подписи к снимкам берутся из tools/build-images.py (RENT).
 """
 import importlib.util
+import glob
 import os
 
 ROOT = os.path.join(os.path.dirname(__file__), '..')
@@ -107,15 +108,18 @@ def photo(code_or_name, alt, cls, link=False):
     return f'<!-- wp:image {{"className":"{cls}"}} -->\n<figure class="wp-block-image {cls}">{img}</figure>\n<!-- /wp:image -->'
 
 
-def video(kind, **kw):
-    poster = TH + 'video/hall-poster.jpg'
-    src = TH + 'video/hall-1280.mp4'
-    if kind == 'bg':
-        bp, bs = TH + 'video/hall-bg-poster.jpg', TH + 'video/hall-bg.mp4'
-        return (f'<!-- wp:video {{"loop":true,"muted":true,"playsInline":true,"poster":"{bp}","src":"{bs}","className":"rent-bg"}} -->\n'
-                f'<figure class="wp-block-video rent-bg"><video loop muted playsinline preload="none" poster="{bp}" src="{bs}"></video></figure>\n<!-- /wp:video -->')
-    return (f'<!-- wp:video {{"controls":true,"playsInline":true,"preload":"none","poster":"{poster}","src":"{src}","className":"rent-player"}} -->\n'
-            f'<figure class="wp-block-video rent-player"><video controls playsinline preload="none" poster="{poster}" src="{src}"></video></figure>\n<!-- /wp:video -->')
+def strip():
+    """Фон первого экрана: лента фото с презентации Music Hall (tools/build-images.py hallbg). Видны три плитки,
+    лента медленно едет (assets/js/rent-strip.js дублирует её для бесшовного круга). Без JS — три первых фото."""
+    from PIL import Image
+    figs = []
+    for i, f in enumerate(sorted(glob.glob(os.path.join(ROOT, 'theme', 'assets', 'img', 'hb-[0-9][0-9].webp'))), 1):
+        name = os.path.basename(f)[:-5]
+        w, h = Image.open(f).size
+        attrs = 'decoding="async" loading="eager"' + (' fetchpriority="high"' if i == 1 else '')
+        figs.append(f'<!-- wp:image {{"className":"rent-strip-ph"}} -->\n<figure class="wp-block-image rent-strip-ph"><img width="{w}" height="{h}" {attrs} src="{TH}img/{name}.webp" alt=""/></figure>\n<!-- /wp:image -->')
+    assert figs, 'нет фото ленты: python3 tools/build-images.py hallbg'
+    return group('rent-strip', group('rent-strip-track', '\n'.join(figs)))
 
 
 def stat(n, t):
@@ -127,9 +131,9 @@ def build(lang):
     kk = lang == 'kk'
     pi = 1 if kk else 2
     gal_alt = 3 if kk else 2
-    # 1. первый экран: видеофон
+    # 1. первый экран: лента фото зала
     hero = section('rent-top', 'rent-hero', group('rent-hero-inner', '\n'.join([
-        video('bg'),
+        strip(),
         group('rent-hero-text wrap', '\n'.join([
             head(1, 'rent-title', t['h1']),
             buttons('rent-actions', [btn(t['b2'], '#rent-gallery', 'is-style-outline btn-ghost')]),

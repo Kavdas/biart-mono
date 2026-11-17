@@ -66,11 +66,12 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/wa-source.js' ),
 		array( 'strategy' => 'defer' )
 	);
+	// Лента фото на первом экране аренды (на других страницах скрипт сразу выходит).
 	wp_enqueue_script(
-		'biart-video-bg',
-		get_template_directory_uri() . '/assets/js/video-bg.js',
+		'biart-rent-strip',
+		get_template_directory_uri() . '/assets/js/rent-strip.js',
 		array(),
-		(string) filemtime( get_stylesheet_directory() . '/assets/js/video-bg.js' ),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/rent-strip.js' ),
 		array( 'strategy' => 'defer' )
 	);
 	wp_enqueue_script(

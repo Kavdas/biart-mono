@@ -249,7 +249,43 @@ def og():
     print('og.jpg 1200×630')
 
 
+# Фон первого экрана аренды: лента фото с презентации Music Hall (папка «new photos for hall» рядом с проектом,
+# в репозиторий не идёт). Порядок — чтобы соседние кадры отличались по цвету и сюжету; 4.jpeg и скриншот WhatsApp
+# не берём: это меньшие копии Photo-0153 и 2.jpeg.
+HALL_SRC = os.path.join(os.path.dirname(__file__), '..', 'new photos for hall')
+# (файл, где по горизонтали главное в кадре: 0 — левый край, 1 — правый) — плитка ленты вертикальная, режем вокруг него
+HALL_BG = [('Photo-91.jpg.jpeg', .5), ('Photo-104.jpg.jpeg', .5), ('ACM07923.jpg', .6), ('Photo-71.jpg.jpeg', .45),
+           ('Photo-128.jpg.jpeg', .55), ('2.jpeg', .43), ('Photo-0083.jpg.jpeg', .6), ('7.jpeg', .45), ('Photo-0105.jpg.jpeg', .45),
+           ('3.jpeg', .5), ('5.jpeg', .5), ('Photo-0153 (1).jpg.jpeg', .5), ('6.jpeg', .68)]
+# первым не ставим 2.jpeg: надпись «MUSIC HALL» на экране сцены спорила бы с заголовком страницы
+
+
+def hallbg():
+    """Вертикальные плитки 3:5: основная 960×1600 (экран высотой ~820 px при плотности 2×), копия 600w для телефонов."""
+    for i, (f, fx) in enumerate(HALL_BG, 1):
+        src = os.path.join(HALL_SRC, f)
+        if not os.path.exists(src):
+            print('нет файла:', src)
+            continue
+        name = f'hb-{i:02d}'
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im).convert('RGB')
+            w, h = im.size
+            cw = round(h * 3 / 5)
+            x0 = min(max(round(w * fx - cw / 2), 0), w - cw)
+            im = im.crop((x0, 0, x0 + cw, h))
+            for old in glob.glob(f'{OUT}/{name}*.webp'):
+                os.remove(old)
+            for tw in (600, 960):
+                th = round(tw * 5 / 3)
+                r = im.resize((tw, th), Image.LANCZOS) if im.size[0] > tw else im.resize((tw, th), Image.BICUBIC)
+                r = sharpen(r)
+                dest = f'{OUT}/{name}.webp' if tw == 960 else f'{OUT}/{name}-{tw}w.webp'
+                r.save(dest, 'WEBP', quality=72, method=6)
+        print(name, f, f'исходник {w}×{h}', f'{os.path.getsize(f"{OUT}/{name}.webp") // 1024} KB')
+
+
 if __name__ == '__main__':
-    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og', 'kids', 'rent']
+    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og', 'kids', 'rent', 'hallbg']
     for s in steps:
-        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og, 'kids': kids, 'rent': rent}[s]()
+        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og, 'kids': kids, 'rent': rent, 'hallbg': hallbg}[s]()
