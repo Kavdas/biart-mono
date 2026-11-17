@@ -960,9 +960,8 @@ body.tm-open { overflow: hidden; }
 .rent-hero-inner::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, .15) 35%, rgba(0, 0, 0, .78) 100%); pointer-events: none; }
 :root .rent-hero-text { position: relative; z-index: 2; width: 100%; padding: clamp(24px, 4.2vw, 64px); }
 .rent-hero-text .eyebrow { color: var(--c-white); }
-:root .rent-title { font-size: clamp(40px, 7.4vw, 108px); line-height: .92; letter-spacing: -.055em; font-weight: 800; margin: 0 0 24px; max-width: 16ch; }
-/* разделитель в названии — оранжевой чертой, без курсива */
-:root .rent-title em { color: var(--c-orange-bright); font-style: normal; font-weight: 500; padding: 0 .06em; }
+:root .rent-title { font-size: clamp(48px, 9vw, 140px); line-height: .9; letter-spacing: -.055em; font-weight: 800; margin: 0 0 24px; max-width: 10ch; }
+:root .rent-title em { display: block; color: var(--c-orange-bright); margin-top: .02em; }
 /* первый экран аренды: слева заголовок и кнопки, справа три факта о пространстве */
 /* цифры идут сразу за первым экраном, без вводного абзаца — полный отступ секции там лишний */
 :root .section.rent-about { padding-top: clamp(48px, 6vw, 88px); }
