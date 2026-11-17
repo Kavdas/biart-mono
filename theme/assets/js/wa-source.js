@@ -13,7 +13,7 @@
     var u;
     try { u = new URL(a.href); } catch (e) { return; }
     var text = u.searchParams.get('text') || (kk ? 'Сәлеметсіз бе! BIART туралы сұрағым бар.' : 'Здравствуйте! У меня вопрос о BIART.');
-    if (text.indexOf('BIART)') > -1 || text.indexOf('сайтынан') > -1) return;
+    if (text.indexOf('BIART)') > -1 || text.indexOf('сайтынан') > -1 || text.indexOf('biart.kz') > -1) return; // текст уже говорит, что пишут с сайта
     u.searchParams.set('text', text + tag + ', ' + (kk ? 'бөлім: ' : 'раздел: ') + section(a) + ')');
     a.href = u.toString();
     a.dataset.src = '1';

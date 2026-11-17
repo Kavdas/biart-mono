@@ -1046,6 +1046,10 @@ body.gl-open { overflow: hidden; }
 /* главная: кнопка к аренде */
 .space-cta { margin-top: 32px; justify-content: center; }
 
+/* первый экран: фраза «третье место» в три строки — длиннее прежнего «Найди свой голос», поэтому кегль меньше */
+:root .hero-title, :root:lang(kk) .hero-title { font-size: clamp(40px, 6.4vw, 108px); line-height: .92; letter-spacing: -.05em; max-width: 13ch; }
+:root .hero-title em { font-size: 1.04em; margin: .02em 0 .04em; }
+:root .hero-lead { font-size: clamp(21px, 2.3vw, 34px); line-height: 1.16; letter-spacing: -.03em; max-width: 26ch; color: var(--c-ink); }
 /* ---- условия абонемента обычным шрифтом ---- */
 :root .price-note { font-family: var(--f-body); font-size: 15px; line-height: 1.55; color: var(--c-ink); max-width: 72ch; padding: 18px 22px; background: var(--c-soft); border-radius: var(--radius-md); margin-top: 24px; }
 
