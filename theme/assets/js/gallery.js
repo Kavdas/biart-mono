@@ -1,10 +1,33 @@
-/* Галерея «Все помещения»: фильтры по категориям и лайтбокс (← → Esc, свайп). Без JS — просто сетка фото. */
+/* Галерея «Все помещения»: фильтры по категориям, на телефоне — 6 фото и «Ещё фото», лайтбокс (← → Esc, свайп). Без JS — просто сетка фото. */
 (function () {
   var grid = document.querySelector('.gal-grid');
   if (!grid) return;
   var kk = document.documentElement.lang === 'kk';
   var t = kk ? { close: 'Жабу', prev: 'Алдыңғы', next: 'Келесі' } : { close: 'Закрыть', prev: 'Предыдущее', next: 'Следующее' };
   var items = Array.prototype.slice.call(grid.querySelectorAll('.gal-item'));
+  var visible = function () { return items.filter(function (f) { return !f.hidden; }); };
+
+  // ----- телефон: сначала 6 фото и кнопка «Ещё фото (N)»; лайтбокс всё равно листает всю категорию -----
+  var LIMIT = 6, expanded = false, mq = window.matchMedia('(max-width: 781px)');
+  var moreWrap = document.createElement('div');
+  moreWrap.className = 'wp-block-buttons gal-more'; moreWrap.hidden = true;
+  moreWrap.innerHTML = '<div class="wp-block-button is-style-outline"><button type="button" class="wp-block-button__link wp-element-button"></button></div>';
+  grid.parentNode.insertBefore(moreWrap, grid.nextSibling);
+  var moreBtn = moreWrap.querySelector('button');
+  var collapse = function () {
+    var v = visible(), on = mq.matches && !expanded && v.length > LIMIT;
+    grid.classList.toggle('is-collapsed', on);
+    items.forEach(function (f) { f.classList.remove('is-extra'); });
+    if (on) v.slice(LIMIT).forEach(function (f) { f.classList.add('is-extra'); });
+    moreWrap.hidden = !on;
+    moreBtn.textContent = (kk ? 'Тағы фото' : 'Ещё фото') + ' (' + (v.length - LIMIT) + ')';
+  };
+  moreBtn.addEventListener('click', function () {
+    var first = visible()[LIMIT];
+    expanded = true; collapse();
+    if (first) first.querySelector('a').focus({ preventScroll: true });
+  });
+  if (mq.addEventListener) mq.addEventListener('change', collapse);
 
   // ----- фильтры: кнопки ведут на #gal-<категория> -----
   var filter = document.querySelector('.gal-filter');
@@ -14,6 +37,7 @@
       var on = b.querySelector('a').getAttribute('href') === '#gal-' + cat;
       b.classList.toggle('is-active', on); b.querySelector('a').setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    collapse();
   };
   if (filter) {
     filter.addEventListener('click', function (e) {
@@ -21,7 +45,7 @@
       e.preventDefault(); apply(a.getAttribute('href').replace('#gal-', ''));
     });
     apply('all');
-  }
+  } else collapse();
 
   // ----- лайтбокс -----
   var box = document.createElement('div');
@@ -33,7 +57,6 @@
   document.body.appendChild(box);
   var img = box.querySelector('img'), cap = box.querySelector('figcaption');
   var idx = 0, opener = null;
-  var visible = function () { return items.filter(function (f) { return !f.hidden; }); };
   var show = function (i) {
     var v = visible(); if (!v.length) return;
     idx = (i + v.length) % v.length;

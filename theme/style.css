@@ -480,12 +480,6 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
   .teach-head > .section-title, .teach-head > .section-lead { grid-column: 1 / -1; }
   .teach-head > .section-lead { margin-top: 20px; }
 }
-/* телефон: команда — горизонтальная лента со свайпом (виден край следующей карточки), а не столбец из пяти высоких портретов */
-@media (max-width: 520px) {
-  .wp-block-columns.teacher-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; gap: 14px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 6px; scrollbar-width: none; }
-  .wp-block-columns.teacher-grid::-webkit-scrollbar { display: none; }
-  .wp-block-columns.teacher-grid > .wp-block-column { scroll-snap-align: start; }
-}
 
 /* ============================================================
    АБОНЕМЕНТЫ
@@ -1078,6 +1072,90 @@ header.wp-block-template-part { transition: transform .3s cubic-bezier(.22, .61,
 header.wp-block-template-part.is-hidden { transform: translateY(-110%); }
 @media (prefers-reduced-motion: reduce) { header.wp-block-template-part { transition: none; } }
 /* печать: только содержание */
+/* ============================================================
+   КОМПАКТНЫЙ ТЕЛЕФОН: тот же дизайн, меньше «воздуха» — страница короче примерно на треть.
+   Только до 781 px; компьютер и планшет не меняются.
+   ============================================================ */
+@media (max-width: 781px) {
+  :root { --section-py: 48px; }
+  :root .eyebrow, :root .pill { margin-bottom: 18px; }
+  :root .section-title { margin-bottom: 22px; }
+  :root .dir-head, :root .teach-head { margin-bottom: 28px; row-gap: 20px; }
+
+  /* О школе: фото ниже, цифры плотнее, галерея пространства ближе */
+  .about-photo img { aspect-ratio: 4 / 5; }
+  :root .about-photo-2 { margin-top: 12%; }
+  :root .wp-block-columns.stats { margin-top: 40px; }
+  .wp-block-columns.stats > .wp-block-column.stat { padding: 20px 16px 18px; }
+  :root .stat-num { margin-bottom: 12px; }
+  :root .space-block { margin-top: 56px; }
+
+  /* Направления: буквица маленькая и справа от названия, строка ниже */
+  .dir-row { position: relative; padding: 24px 0; }
+  .dir-row .dir-text, .dir-row.is-flipped .dir-text { grid-row: 1; }
+  .dir-row .dir-media, .dir-row.is-flipped .dir-media { position: absolute; top: 24px; right: 0; margin: 0; pointer-events: none; }
+  .dir-let img { height: 56px; }
+  /* название и строка «[01] 10 курсов · 30 000 ₸» не заходят под буквицу */
+  .dir-row h3 { padding-right: 60px; margin-bottom: 12px; }
+  :root .dir-meta { margin-bottom: 10px; padding-right: 60px; }
+  :root .dir-list { margin-bottom: 16px; }
+  :root .dir-foot { padding-top: 24px; }
+
+  /* Преимущества: номер в строку с заголовком */
+  .benefits .section-title { margin-bottom: 32px; }
+  .wp-block-columns.benefit-grid { gap: 28px; }
+  .wp-block-columns.benefit-grid > .wp-block-column.benefit { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: baseline; padding-top: 20px; }
+  :root .benefit-num { font-size: 40px; margin: 0; }
+  .benefit h3 { margin-bottom: 10px; }
+  .benefit h3 ~ p { grid-column: 1 / -1; }
+
+  /* Проекты */
+  :root .ev-duo { gap: 28px; margin-bottom: 32px; }
+  .ev-feat { padding-top: 20px; }
+  :root .ev-title { margin-bottom: 14px; }
+  :root .events { --car-h: 300px; }
+  :root .ev-regular { gap: 18px; padding-top: 24px; margin-top: 32px; }
+  .ev-item h3 { font-size: 22px; margin: 2px 0 6px; }
+
+  /* Абонементы: столбец, но карточки ниже */
+  .wp-block-columns.price-grid > .wp-block-column.price { padding: 24px 22px; }
+  .price h3 { margin-bottom: 18px; }
+  .price-featured h3 { padding-right: 110px; } /* не под плашкой «Популярный» */
+  :root .price-sum { font-size: 48px; }
+  :root .price-period { margin: 8px 0 16px; }
+  :root .price-li { padding: 9px 0; font-size: 15px; }
+  .price .price-actions { padding-top: 18px; }
+
+  /* Отзывы */
+  .rev-grid > .rev-side { margin-bottom: 24px; }
+  :root .rev-num { font-size: 72px; }
+  :root .rev-src { margin-bottom: 20px; }
+  .review-wall > .review { padding: 22px; }
+  :root .review-text { margin-bottom: 18px; }
+
+  /* FAQ, контакты */
+  .faq-head { margin-bottom: 24px; }
+  .faq-item summary { padding: 12px 0; font-size: 18px; }
+  .contact-grid > .contact-map { min-height: 220px; }
+}
+
+/* телефон: повторяющиеся карточки — лента со свайпом (виден край следующей): команда, отзывы, события и техника аренды */
+@media (max-width: 520px) {
+  .wp-block-columns.teacher-grid, .rev-grid > .review-wall, .rent-cards, .tech-grid {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; gap: 14px;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 6px; scrollbar-width: none;
+  }
+  .wp-block-columns.teacher-grid { grid-auto-columns: 78%; }
+  .wp-block-columns.teacher-grid::-webkit-scrollbar, .review-wall::-webkit-scrollbar, .rent-cards::-webkit-scrollbar, .tech-grid::-webkit-scrollbar { display: none; }
+  .wp-block-columns.teacher-grid > *, .review-wall > *, .rent-cards > *, .tech-grid > * { scroll-snap-align: start; }
+}
+
+/* галерея аренды на телефоне: 6 фото и кнопка «Ещё фото» (gallery.js); лайтбокс листает всю категорию */
+.gal-grid.is-collapsed .gal-item.is-extra { display: none; }
+.gal-more { margin: 16px 0 0; }
+.gal-more[hidden] { display: none; }
+
 @media print {
   header.wp-block-template-part, .wa-float, .rent-bg, .hero-ticker, .carousel .car-btn, .car-meta, video, .nav-toggle { display: none !important; }
   .section, .benefits, .teachers, .ask, .site-footer, .price-featured, .hero-card { background: #fff !important; color: #000 !important; border-radius: 0 !important; margin: 0 !important; padding: 16px 0 !important; }
