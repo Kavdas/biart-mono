@@ -369,9 +369,11 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .wp-block-columns.benefit-grid > .wp-block-column.benefit { flex: none !important; width: auto !important; min-width: 0; border-top: 1px solid var(--c-line-inv); padding-top: 28px; }
 :root .benefit-num { font-family: var(--f-serif); font-style: italic; font-size: clamp(56px, 6vw, 96px); line-height: .9; letter-spacing: -.03em; color: var(--c-orange); margin: 0 0 56px; }
 .benefit h3 { margin-bottom: 18px; font-size: clamp(26px, 2.5vw, 38px); max-width: 14ch; }
-.benefit h3 + p { color: var(--c-mute-inv); line-height: 1.55; font-size: 16px; }
+.benefit h3 ~ p { color: var(--c-mute-inv); line-height: 1.55; font-size: 16px; }
+/* метка над текстом карточки — тем же почерком, что надсекционные подписи */
+:root .benefit-label { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--c-orange-bright); margin: 0 0 14px; }
 /* три карточки на одной сетке строк: номер, заголовок и текст стоят на одном уровне, даже если заголовок в одну строку */
-@media (min-width: 1025px) { .wp-block-columns.benefit-grid { grid-template-rows: auto auto 1fr; row-gap: 0; } .wp-block-columns.benefit-grid > .wp-block-column.benefit { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; } .benefit h3 { align-self: start; } }
+@media (min-width: 1025px) { .wp-block-columns.benefit-grid { grid-template-rows: auto auto auto 1fr; row-gap: 0; } .wp-block-columns.benefit-grid > .wp-block-column.benefit { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start; } .benefit h3 { align-self: start; } .benefit-label { grid-row: 3; } .benefit > p:last-child { grid-row: 4; } }
 @media (max-width: 1024px) { .wp-block-columns.benefit-grid { grid-template-columns: 1fr; gap: 44px; } :root .benefit-num { margin-bottom: 20px; } }
 
 /* ============================================================
