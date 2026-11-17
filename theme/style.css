@@ -958,15 +958,15 @@ body.tm-open { overflow: hidden; }
 :root .rent-hero-text { position: relative; z-index: 2; width: 100%; padding: clamp(24px, 4.2vw, 64px); }
 .rent-hero-text .eyebrow { color: var(--c-white); }
 /* «BIART Music Hall Space» одним шрифтом: три строки — BIART / Music Hall / Space */
-:root .rent-title { font-size: clamp(44px, 7.6vw, 116px); line-height: .92; letter-spacing: -.055em; font-weight: 800; margin: 0 0 24px; max-width: none; }
-/* первый экран аренды: слева заголовок и кнопки, справа три факта о пространстве */
+:root .rent-title { font-size: clamp(44px, 6.8vw, 104px); line-height: .92; letter-spacing: -.055em; font-weight: 800; margin: 0 0 24px; max-width: none; }
+/* первый экран аренды: заголовок и кнопка выше, три факта о зале — строкой по низу экрана (на телефоне — столбцом) */
 /* цифры идут сразу за первым экраном, без вводного абзаца — полный отступ секции там лишний */
 :root .section.rent-about { padding-top: clamp(48px, 6vw, 88px); }
-@media (min-width: 1025px) { :root .rent-hero-text { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: clamp(32px, 5vw, 96px); align-items: end; justify-items: start; } .rent-hero-text > * { grid-column: 1; } :root .rent-hero-text > .rent-facts { grid-column: 2; grid-row: 1 / span 4; align-self: end; } }
 :root .rent-facts { list-style: none; margin: 0; padding: 0; color: rgba(255, 255, 255, .92); font-size: clamp(15px, 1.15vw, 17px); line-height: 1.5; max-width: 52ch; }
 :root .rent-facts li { position: relative; padding: 16px 0 16px 28px; border-top: 1px solid rgba(255, 255, 255, .28); margin: 0; }
 .rent-facts li::before { content: ""; position: absolute; left: 0; top: 24px; width: 9px; height: 9px; background: var(--c-orange); }
-@media (max-width: 1024px) { :root .rent-facts { margin-top: 32px; } }
+@media (min-width: 782px) { :root .rent-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(20px, 3vw, 48px); max-width: none; margin-top: clamp(40px, 5vw, 72px); } :root .rent-facts li { padding: 18px 0 0 24px; } .rent-facts li::before { top: 26px; } }
+@media (max-width: 781px) { :root .rent-facts { margin-top: 32px; } }
 .rent-hero .btn-ghost .wp-block-button__link, .rent-hero .is-style-outline .wp-block-button__link { background: transparent; color: var(--c-white); border-color: rgba(255, 255, 255, .6); }
 .rent-hero .btn-ghost .wp-block-button__link:hover { background: var(--c-white); color: var(--c-ink); border-color: var(--c-white); }
 
