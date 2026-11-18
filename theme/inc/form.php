@@ -76,10 +76,6 @@ function biart_form_shortcode( $atts ): string {
 				<label for="<?php echo esc_attr( $id ); ?>-date"><?php echo esc_html( $t( 'Желаемая дата', 'Қалаған күні' ) ); ?></label>
 				<input id="<?php echo esc_attr( $id ); ?>-date" type="date" name="date">
 			</div>
-			<div class="bf-field">
-				<label for="<?php echo esc_attr( $id ); ?>-guests"><?php echo esc_html( $t( 'Число гостей', 'Қонақтар саны' ) ); ?></label>
-				<input id="<?php echo esc_attr( $id ); ?>-guests" type="number" name="guests" min="1" max="5000" inputmode="numeric" placeholder="<?php echo esc_attr( $t( 'Примерно', 'Шамамен' ) ); ?>">
-			</div>
 			<?php endif; ?>
 			<?php if ( $lead ) : ?>
 			<div class="bf-field">

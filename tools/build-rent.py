@@ -26,8 +26,6 @@ L = {
             'Зал оснащён амфитеатром, подиумом, полноценной сценой и системой иммерсивного звука 360°',
             'Пространство подходит для конференций, спектаклей, концертов, презентаций и мероприятий любого формата'],
   'b2': 'Смотреть зал',
-  'stats': [('500', 'учеников обучаются в школе, ежемесячно участвуют в конкурсах и мюзиклах'), ('8+', 'лет экспертности — средний стаж работы наших преподавателей'),
-            ('25+', 'преподавателей — действующие музыканты, артисты, хореографы и digital-художники'), ('5000 м²', 'собственного пространства: музыкальные студии, танцевальные залы, digital-лаборатории, своя сцена')],
   'ev_t': 'События и <em>форматы мероприятий</em>',
   'ev': [('01', 'Конференции и QBR', 'Зал с экраном на сцене и светом — для докладов, презентаций и встреч команд.', 'r-1441'),
          ('02', 'Концерты', 'Сцена, свет и звук для концертов, сольных выступлений и творческих вечеров.', 'r-1443'),
@@ -40,7 +38,6 @@ L = {
   'cats': [('all', 'Все'), ('hall', 'Зал и сцена'), ('studio', 'Студии'), ('class', 'Классы'), ('common', 'Общие зоны')],
   'press_t': 'О нас <em>пишут</em>', 'press_l': 'Публикации СМИ о школе BIART.',
   'cta_t': 'Проведите событие <em>у нас</em>', 'cta_l': 'Оставьте заявку — менеджер свяжется с вами, обсудит дату и формат мероприятия.',
-  'cta_b': 'Арендовать пространство',
  },
  'kk': {
   'h1': 'BIART<br>Music&nbsp;Hall<br>Space',
@@ -48,8 +45,6 @@ L = {
             'Зал амфитеатрмен, подиуммен, толыққанды сахнамен және 360° иммерсивті дыбыс жүйесімен жабдықталған',
             'Кеңістік конференциялар, спектакльдер, концерттер, презентациялар және кез келген форматтағы іс-шараларға қолайлы'],
   'b2': 'Залды көру',
-  'stats': [('500', 'оқушы мектепте оқиды, ай сайын байқаулар мен мюзиклдерге қатысады'), ('8+', 'жылдық сараптама — оқытушыларымыздың орташа жұмыс өтілі'),
-            ('25+', 'оқытушы — жұмыс істеп жүрген музыканттар, әртістер, хореографтар және digital-суретшілер'), ('5000 м²', 'жеке кеңістік: музыка студиялары, би залдары, digital-зертханалар, өз сахнамыз')],
   'ev_t': 'Іс-шаралар мен <em>форматтар</em>',
   'ev': [('01', 'Конференциялар мен QBR', 'Сахнада экраны және жарығы бар зал — баяндамаларға, презентацияларға және команда кездесулеріне.', 'r-1441'),
          ('02', 'Концерттер', 'Концерттерге, жеке өнерге және шығармашылық кештерге арналған сахна, жарық және дыбыс.', 'r-1443'),
@@ -62,7 +57,6 @@ L = {
   'cats': [('all', 'Барлығы'), ('hall', 'Зал және сахна'), ('studio', 'Студиялар'), ('class', 'Сыныптар'), ('common', 'Ортақ аймақтар')],
   'press_t': 'Біз туралы <em>жазады</em>', 'press_l': 'BIART мектебі туралы БАҚ жарияланымдары.',
   'cta_t': 'Іс-шараны <em>бізде</em> өткізіңіз', 'cta_l': 'Өтінім қалдырыңыз — менеджер сізбен байланысып, іс-шараның күні мен форматын талқылайды.',
-  'cta_b': 'Кеңістікті жалға алу',
  }}
 
 
@@ -122,10 +116,6 @@ def strip():
     return group('rent-strip', group('rent-strip-track', '\n'.join(figs)))
 
 
-def stat(n, t):
-    return f'<!-- wp:column {{"className":"stat"}} -->\n<div class="wp-block-column stat">\n{para("stat-num", n)}\n{para("stat-txt", t)}\n</div>\n<!-- /wp:column -->'
-
-
 def build(lang):
     t = L[lang]
     kk = lang == 'kk'
@@ -138,9 +128,6 @@ def build(lang):
             head(1, 'rent-title', t['h1']),
             buttons('rent-actions', [btn(t['b2'], '#rent-gallery', 'is-style-outline btn-ghost')]),
             '<!-- wp:list {"className":"rent-facts"} -->\n<ul class="wp-block-list rent-facts">' + ''.join(f'<!-- wp:list-item --><li>{x}</li><!-- /wp:list-item -->' for x in t['facts']) + '</ul>\n<!-- /wp:list -->']))])))
-    # 2. цифры
-    stats = section('rent-about', 'rent-about', group('wrap', '\n'.join([
-        '<!-- wp:columns {"className":"stats"} -->\n<div class="wp-block-columns stats">\n' + '\n'.join(stat(n, x) for n, x in t['stats']) + '\n</div>\n<!-- /wp:columns -->'])))
     # 3. события
     cards = '\n'.join(group('rent-card', photo(code, ttl, 'rent-card-ph') + '\n' + para('rent-card-n', f'[{n}]') + '\n' + head(3, 'rent-card-t', ttl) + '\n' + para('rent-card-d', d))
                       for n, ttl, d, code in t['ev'])
@@ -156,9 +143,9 @@ def build(lang):
     press = section('rent-press', 'rent-press is-empty', group('wrap', head(2, 'section-title', t['press_t']) + '\n' + para('section-lead', t['press_l']) + '\n' + group('press-slots', para('press-slot', ''))))
     # 9. заявка
     cta = section('rent-form', 'rent-cta', group('wrap rent-cta-card', '\n'.join([
-        group('rent-cta-text', head(2, 'section-title', t['cta_t']) + '\n' + para('section-lead', t['cta_l']) + '\n' + buttons('rent-actions', [btn(t['cta_b'], WA[lang])])),
+        group('rent-cta-text', head(2, 'section-title', t['cta_t']) + '\n' + para('section-lead', t['cta_l'])),
         group('rent-cta-form', f'<!-- wp:shortcode -->\n[biart_form variant="rent"{" lang=\"kk\"" if kk else ""}]\n<!-- /wp:shortcode -->')])))
-    return '\n'.join([hero, stats, events, tech, gallery, press, cta])
+    return '\n'.join([hero, events, tech, gallery, press, cta])
 
 
 if __name__ == '__main__':
