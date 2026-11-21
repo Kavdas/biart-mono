@@ -484,6 +484,8 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
    АБОНЕМЕНТЫ
    ============================================================ */
 .prices .section-title { max-width: 14ch; }
+/* «Абонементы» теперь на странице направлений, сразу под списком — верхний отступ не удваиваем */
+.directions + .prices { padding-top: 0; }
 .wp-block-columns.price-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
 .wp-block-columns.price-grid > .wp-block-column.price {
   flex: none !important; width: auto !important; min-width: 0; position: relative;
@@ -1066,8 +1068,8 @@ body.gl-open { overflow: hidden; }
 /* главная: кнопка к аренде */
 .space-cta { margin-top: 32px; justify-content: center; }
 
-/* первый экран: фраза «третье место» в три строки — длиннее прежнего «Найди свой голос», поэтому кегль меньше */
-:root .hero-title, :root:lang(kk) .hero-title { font-size: clamp(40px, 6.4vw, 108px); line-height: .92; letter-spacing: -.05em; max-width: 13ch; }
+/* слоган «Направь своё вдохновение» — крупно, в две строки */
+:root .hero-title, :root:lang(kk) .hero-title { font-size: clamp(44px, 8vw, 140px); line-height: .9; letter-spacing: -.05em; max-width: 13ch; }
 :root .hero-title em { font-size: 1.04em; margin: .02em 0 .04em; }
 :root .hero-lead { font-size: clamp(21px, 2.3vw, 34px); line-height: 1.16; letter-spacing: -.03em; max-width: 26ch; color: var(--c-ink); }
 /* «О школе»: заголовок — целое предложение, поэтому кегль спокойнее обычного заголовка секции */
