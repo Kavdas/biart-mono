@@ -274,7 +274,8 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .hero-count strong { font-size: 2.3em; font-weight: 800; letter-spacing: -.06em; line-height: .8; vertical-align: -.12em; margin-right: .1em; }
 .hero-count strong:nth-of-type(2) { color: transparent; -webkit-text-stroke: 1.2px var(--c-ink); margin-left: .25em; }
 /* цветные персонажи — как нарисованы, без фильтров */
-:root .hero-art { position: absolute; z-index: 1; right: 2.5%; bottom: 0; width: clamp(280px, 44vw, 700px); margin: 0; pointer-events: none; }
+/* пара в танце — кадр почти квадратный, поэтому уже прежней группы и чуть отодвинута от краёв */
+:root .hero-art { position: absolute; z-index: 1; right: 3.5%; bottom: 0; width: clamp(260px, 37vw, 600px); margin: 0; pointer-events: none; }
 .hero-art img { width: 100%; }
 .hero-card::after {
   content: "BIART"; position: absolute; z-index: 0; left: 0; right: 0; bottom: -.17em; text-align: center; pointer-events: none; user-select: none;
@@ -314,7 +315,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 
 @media (max-width: 1024px) {
   :root .hero-card { min-height: clamp(520px, 74svh, 700px); }
-  :root .hero-art { width: clamp(220px, 42vw, 400px); right: 0; }
+  :root .hero-art { width: clamp(220px, 38vw, 380px); right: 0; }
   .hero-balance > .hero-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   :root .balance-title, :root .balance-text { grid-column: 1 / -1; }
 }
@@ -324,7 +325,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
   :root .hero-lead, .hero-card > .hero-actions { grid-column: 1 / -1; }
   .hero-card > .hero-actions { grid-row: 4; }
   :root .hero-count { grid-column: 1 / -1; grid-row: 5; justify-self: start; text-align: left; margin-top: 28px; }
-  :root .hero-art { position: relative; right: auto; bottom: auto; grid-column: 1 / -1; grid-row: 6; width: min(100%, 360px); margin: 24px auto -32px; }
+  :root .hero-art { position: relative; right: auto; bottom: auto; grid-column: 1 / -1; grid-row: 6; width: min(100%, 320px); margin: 20px auto -24px; }
   .hero-links .wp-block-button__link { min-height: 100px; padding: 16px; font-size: 15px; overflow-wrap: anywhere; }
 }
 
