@@ -603,18 +603,6 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
    ВОПРОСЫ: тёмная карточка с формой
    ============================================================ */
 .ask { margin-top: var(--section-py); }
-/* блок «Первый шаг к творчеству» — фирменный оранжевый вместо чёрного; текст и поля белые по нему */
-:root .ask { background: var(--c-orange); }
-:root .ask h2 em, :root .ask .eyebrow, :root .ask .section-lead, :root .ask .bf-field label, :root .ask .bf-consent, :root .ask .bf-status { color: var(--c-white); }
-:root .ask .eyebrow { border-color: rgba(255, 255, 255, .65); }
-:root .ask .bf-field input, :root .ask .bf-field select, :root .ask .bf-field textarea { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .55); color: var(--c-white); }
-:root .ask .bf-field input::placeholder, :root .ask .bf-field textarea::placeholder { color: rgba(255, 255, 255, .78); }
-:root .ask .bf-field input:focus, :root .ask .bf-field select:focus, :root .ask .bf-field textarea:focus { border-color: var(--c-white); box-shadow: 0 0 0 4px rgba(255, 255, 255, .3); }
-:root .ask .bf-field select option { background: #b23623; color: var(--c-white); }
-:root .ask .bf-error, :root .ask .bf-status a, :root .ask .bf-consent a { color: var(--c-white); }
-.ask .bf-submit { background: var(--c-white); border-color: var(--c-white); color: var(--c-ink); }
-.ask .bf-submit:hover { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-white); }
-.ask .bf-field.has-error input { border-color: var(--c-white); }
 /* заголовок длиннее прежнего «Возникли вопросы?» — кегль спокойнее, в три строки */
 :root .ask .section-title { max-width: 14ch; font-size: clamp(36px, 5.2vw, 84px); }
 /* «Шығармашылыққа алғашқы қадам» — слова длиннее русских, иначе заголовок заходит на форму */
