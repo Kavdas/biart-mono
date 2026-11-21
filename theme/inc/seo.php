@@ -21,7 +21,7 @@ function biart_org(): array {
 		'instagram' => 'https://instagram.com/biart.kz',
 		'whatsapp'  => 'https://wa.me/77007103300',
 		'hours'     => array( 'Mo-Fr 09:00-21:00', 'Sa 10:00-17:00' ),
-		'desc_ru'   => 'Школа креативных индустрий BIART в Астане: музыка, хореография, актёрское мастерство, digital art. Более 500 семей доверили нам творческое развитие детей. Пробный урок бесплатно.',
+		'desc_ru'   => 'Школа креативных индустрий BIART в Астане: музыка, хореография, актёрское мастерство, digital art. Более 600 человек уже выбрали нас для творческого развития. Пробный урок бесплатно.',
 		'desc_kk'   => '6–18 жас аралығындағы балаларға арналған Астанадағы шығармашылық индустриялар мектебі: музыка, хореография, актёрлік шеберлік, digital art. Күшті педагогтар, өз сахнамыз, 5000 м². Сынақ сабағы тегін.',
 	);
 }
@@ -32,7 +32,10 @@ function biart_org(): array {
  * а шаблон в обычном редакторе не трогают. Фолбэк на слаг — для старых установок.
  */
 function biart_is_kz(): bool {
-	return is_page_template( 'page-landing-kz' ) || is_page( 'kz' );
+	// Шаблон page-landing-kz теперь и у вынесенных разделов (бағыттар, команда, FAQ) —
+	// им нужны свои заголовок, описание и hreflang, поэтому главную узнаём по слагу.
+	return is_page( 'kz' )
+		|| ( is_page_template( 'page-landing-kz' ) && ! is_page( array( 'napravleniya-kz', 'komanda-kz', 'faq-kz' ) ) );
 }
 
 /**
@@ -41,38 +44,64 @@ function biart_is_kz(): bool {
  * заголовок, описание и hreflang у внутренних страниц свои.
  */
 function biart_is_kz_lang(): bool {
-	return biart_is_kz() || is_page_template( 'page-kz' ) || is_page_template( 'page-rent-kz' );
+	return biart_is_kz() || is_page_template( 'page-kz' ) || is_page_template( 'page-rent-kz' )
+		|| is_page( array( 'napravleniya-kz', 'komanda-kz', 'faq-kz' ) );
 }
 
-/** Адрес казахской версии: ищем страницу по шаблону, а не склеиваем /kz/ руками. */
+/** Адрес казахской главной: по слагу — шаблон page-landing-kz теперь и у вынесенных разделов. */
 function biart_kz_url(): string {
 	static $url = null;
 	if ( null !== $url ) {
 		return $url;
 	}
-	$found = get_posts(
-		array(
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			'posts_per_page' => 1,
-			'meta_key'       => '_wp_page_template',
-			'meta_value'     => 'page-landing-kz',
-			'fields'         => 'ids',
-			'no_found_rows'  => true,
-		)
-	);
-	$url = $found ? get_permalink( $found[0] ) : home_url( '/kz/' );
+	$page = get_page_by_path( 'kz' );
+	$url  = $page ? get_permalink( $page ) : home_url( '/kz/' );
 	return $url;
 }
 
 
+/** Разделы, вынесенные с главной отдельными страницами: пара RU/KZ и описания для поиска. */
+function biart_section_pages(): array {
+	return array(
+		'napravleniya' => array(
+			'kz'      => 'napravleniya-kz',
+			'desc_ru' => 'Направления школы BIART в Астане: музыкальное искусство, хореография, актёрское мастерство и digital & visual art для детей 5–18 лет и взрослых.',
+			'desc_kk' => 'BIART мектебінің бағыттары, Астана: музыка өнері, хореография, актёрлік шеберлік және digital & visual art — 5–18 жастағы балалар мен ересектерге.',
+		),
+		'komanda'      => array(
+			'kz'      => 'komanda-kz',
+			'desc_ru' => 'Команда BIART: кураторы и преподаватели — действующие музыканты, артисты, хореографы и digital-художники школы креативных индустрий в Астане.',
+			'desc_kk' => 'BIART командасы: кураторлар мен оқытушылар — Астанадағы креативті индустрия мектебінің музыканттары, әртістері, хореографтары және digital-суретшілері.',
+		),
+		'faq'          => array(
+			'kz'      => 'faq-kz',
+			'desc_ru' => 'Частые вопросы о школе BIART: как проходят занятия, что входит в абонемент, пробный урок, возраст и расписание групп в Астане.',
+			'desc_kk' => 'BIART мектебі туралы жиі қойылатын сұрақтар: сабақтар қалай өтеді, абонементке не кіреді, сынақ сабағы, жас және топтар кестесі.',
+		),
+	);
+}
+
+/** Пара hreflang для вынесенных разделов; true — если ссылки выведены. */
+function biart_section_hreflang(): bool {
+	foreach ( biart_section_pages() as $ru => $pair ) {
+		if ( ! is_page( array( $ru, $pair['kz'] ) ) ) {
+			continue;
+		}
+		echo '<link rel="alternate" hreflang="ru" href="' . esc_url( home_url( '/' . $ru . '/' ) ) . '">' . PHP_EOL;
+		echo '<link rel="alternate" hreflang="kk" href="' . esc_url( home_url( '/' . $pair['kz'] . '/' ) ) . '">' . PHP_EOL;
+		echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( home_url( '/' . $ru . '/' ) ) . '">' . PHP_EOL;
+		return true;
+	}
+	return false;
+}
+
 /** Описание для страницы расписания; у остальных внутренних страниц его нет. */
 function biart_schedule_desc(): string {
 	if ( is_page( 'raspisanie' ) ) {
-		return 'Дни и время занятий для детей 6–10, 11–13 и 14–17 лет и для взрослых: музыка, хореография, актёрское мастерство и digital art в школе BIART, Астана.';
+		return 'Дни и время занятий для детей 5–10, 11–13 и 14–18 лет и для взрослых: музыка, хореография, актёрское мастерство и digital art в школе BIART, Астана.';
 	}
 	if ( is_page( 'raspisanie-kz' ) ) {
-		return '6–10, 11–13, 14–17 жастағы балалар мен ересектердің сабақ күндері мен уақыты: музыка, хореография, актёрлік шеберлік және digital art — BIART, Астана.';
+		return '5–10, 11–13, 14–18 жастағы балалар мен ересектердің сабақ күндері мен уақыты: музыка, хореография, актёрлік шеберлік және digital art — BIART, Астана.';
 	}
 	return '';
 }
@@ -96,6 +125,11 @@ function biart_seo_head(): void {
 		$url   = get_permalink();
 		// У юридических страниц описание не нужно, а расписание ищут отдельно.
 		$desc  = biart_schedule_desc();
+		foreach ( biart_section_pages() as $ru => $pair ) {
+			if ( is_page( array( $ru, $pair['kz'] ) ) ) {
+				$desc = $kzl ? $pair['desc_kk'] : $pair['desc_ru'];
+			}
+		}
 		if ( is_page( array( 'arenda', 'arenda-kz' ) ) ) {
 			$desc = $kzl
 				? 'BIART Music Hall Space — Астанадағы концерт залы, студиялар мен сыныптарды жалға беру: конференциялар, концерттер, спектакльдер. Өтінім қалдырыңыз.'
@@ -118,6 +152,8 @@ function biart_seo_head(): void {
 		echo '<link rel="alternate" hreflang="ru" href="' . esc_url( home_url( '/arenda/' ) ) . '">' . PHP_EOL;
 		echo '<link rel="alternate" hreflang="kk" href="' . esc_url( home_url( '/arenda-kz/' ) ) . '">' . PHP_EOL;
 		echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( home_url( '/arenda/' ) ) . '">' . PHP_EOL;
+	} elseif ( biart_section_hreflang() ) {
+		null; // пара ссылок уже выведена
 	} elseif ( is_page( array( 'raspisanie', 'raspisanie-kz' ) ) ) {
 		// Расписание существует на двух языках — без этой пары поиск считает
 		// их разными страницами, а не переводами одной.

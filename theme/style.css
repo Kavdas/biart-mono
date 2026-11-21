@@ -547,6 +547,21 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 @media (max-width: 1024px) { :root .ev-duo, :root .ev-regular { grid-template-columns: 1fr; gap: 36px; } }
 
 /* ============================================================
+   ЧТО ЕЩЁ ПОСМОТРЕТЬ: плитки-ссылки на вынесенные разделы (направления, команда, FAQ)
+   ============================================================ */
+.more-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.more-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px 26px 26px; border: 1px solid var(--c-ink); border-radius: var(--radius-md); transition: background .25s, color .25s; }
+:root .more-t { font-size: clamp(21px, 1.9vw, 28px); padding-right: 34px; font-weight: 500; letter-spacing: -.035em; margin: 0; max-width: 12ch; }
+.more-t a { color: inherit; text-decoration: none; }
+/* ссылка растянута на всю карточку: нажимается любое место, в разметке остаётся один <a> */
+.more-t a::after { content: ""; position: absolute; inset: 0; }
+:root .more-d { margin: 0; color: var(--c-mute); font-size: 16px; line-height: 1.45; max-width: 30ch; }
+.more-card::before { content: "↗"; position: absolute; top: 22px; right: 24px; font-size: 20px; transition: transform .25s; }
+@media (hover: hover) { .more-card:hover { background: var(--c-ink); color: var(--c-white); } .more-card:hover .more-d { color: var(--c-mute-inv); } .more-card:hover::before { transform: translate(3px, -3px); } }
+.more-card:focus-within { outline: 3px solid var(--focus, var(--c-ink)); outline-offset: 4px; }
+@media (max-width: 781px) { .more-grid { grid-template-columns: 1fr; gap: 10px; } .more-card { min-height: 0; padding: 20px 22px; } }
+
+/* ============================================================
    ОТЗЫВЫ: два отзыва и ссылка на 2ГИС (ТЗ 2.0), детали — оранжевые
    ============================================================ */
 :root .rev-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: stretch; }
@@ -587,6 +602,22 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
    ВОПРОСЫ: тёмная карточка с формой
    ============================================================ */
 .ask { margin-top: var(--section-py); }
+/* блок «Первый шаг к творчеству» — фирменный оранжевый вместо чёрного; текст и поля белые по нему */
+:root .ask { background: var(--c-orange); }
+:root .ask h2 em, :root .ask .eyebrow, :root .ask .section-lead, :root .ask .bf-field label, :root .ask .bf-consent, :root .ask .bf-status { color: var(--c-white); }
+:root .ask .eyebrow { border-color: rgba(255, 255, 255, .65); }
+:root .ask .bf-field input, :root .ask .bf-field select, :root .ask .bf-field textarea { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .55); color: var(--c-white); }
+:root .ask .bf-field input::placeholder, :root .ask .bf-field textarea::placeholder { color: rgba(255, 255, 255, .78); }
+:root .ask .bf-field input:focus, :root .ask .bf-field select:focus, :root .ask .bf-field textarea:focus { border-color: var(--c-white); box-shadow: 0 0 0 4px rgba(255, 255, 255, .3); }
+:root .ask .bf-field select option { background: #b23623; color: var(--c-white); }
+:root .ask .bf-error, :root .ask .bf-status a, :root .ask .bf-consent a { color: var(--c-white); }
+.ask .bf-submit { background: var(--c-white); border-color: var(--c-white); color: var(--c-ink); }
+.ask .bf-submit:hover { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-white); }
+.ask .bf-field.has-error input { border-color: var(--c-white); }
+/* заголовок длиннее прежнего «Возникли вопросы?» — кегль спокойнее, в три строки */
+:root .ask .section-title { max-width: 14ch; font-size: clamp(36px, 5.2vw, 84px); }
+/* «Шығармашылыққа алғашқы қадам» — слова длиннее русских, иначе заголовок заходит на форму */
+:root:lang(kk) .ask .section-title { max-width: 15ch; font-size: clamp(28px, 3.4vw, 54px); }
 .ask-card { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; align-items: start; }
 .ask-card > .ask-text { grid-column: 1 / 7; }
 .ask-card > .ask-form { grid-column: 7 / -1; }

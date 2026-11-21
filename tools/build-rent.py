@@ -128,6 +128,8 @@ def build(lang):
             head(1, 'rent-title', t['h1']),
             buttons('rent-actions', [btn(t['b2'], '#rent-gallery', 'is-style-outline btn-ghost')]),
             '<!-- wp:list {"className":"rent-facts"} -->\n<ul class="wp-block-list rent-facts">' + ''.join(f'<!-- wp:list-item --><li>{x}</li><!-- /wp:list-item -->' for x in t['facts']) + '</ul>\n<!-- /wp:list -->']))])))
+    # 2. «5000 м² для творчества» — карусель помещений, перенесена с главной (правки 21.11)
+    space = open(os.path.join(ROOT, 'theme', 'content', '_space-%s.html' % ('kz' if kk else 'ru')), encoding='utf-8').read()
     # 3. события
     cards = '\n'.join(group('rent-card', photo(code, ttl, 'rent-card-ph') + '\n' + para('rent-card-n', f'[{n}]') + '\n' + head(3, 'rent-card-t', ttl) + '\n' + para('rent-card-d', d))
                       for n, ttl, d, code in t['ev'])
@@ -145,7 +147,7 @@ def build(lang):
     cta = section('rent-form', 'rent-cta', group('wrap rent-cta-card', '\n'.join([
         group('rent-cta-text', head(2, 'section-title', t['cta_t']) + '\n' + para('section-lead', t['cta_l'])),
         group('rent-cta-form', f'<!-- wp:shortcode -->\n[biart_form variant="rent"{" lang=\"kk\"" if kk else ""}]\n<!-- /wp:shortcode -->')])))
-    return '\n'.join([hero, events, tech, gallery, press, cta])
+    return '\n'.join([hero, space, events, tech, gallery, press, cta])
 
 
 if __name__ == '__main__':

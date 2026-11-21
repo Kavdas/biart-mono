@@ -53,6 +53,13 @@ const legal = [
   ['dogovor-oferty-sertifikata', 'Договор оферты сертификата', 'oferta-sertifikat.html', null, null],
   ['raspisanie', 'Расписание по возрастам', 'schedule.html', null, null],
   ['raspisanie-kz', 'Жас бойынша кесте', 'schedule-kz.html', null, 'page-kz'],
+  // разделы, вынесенные с главной отдельными экранами (правки 21.11)
+  ['napravleniya', 'Направления', 'napravleniya.html', null, 'page-landing'],
+  ['napravleniya-kz', 'Бағыттар', 'napravleniya-kz.html', null, 'page-landing-kz'],
+  ['komanda', 'Наша команда', 'komanda.html', null, 'page-landing'],
+  ['komanda-kz', 'Біздің команда', 'komanda-kz.html', null, 'page-landing-kz'],
+  ['faq', 'Частые вопросы', 'faq-page.html', null, 'page-landing'],
+  ['faq-kz', 'Жиі қойылатын сұрақтар', 'faq-page-kz.html', null, 'page-landing-kz'],
   ['arenda', 'Аренда — BIART Music Hall Space', 'rent.html', null, 'page-rent'],
   ['arenda-kz', 'Жалға беру — BIART Music Hall Space', 'rent-kz.html', null, 'page-rent-kz'],
 ];

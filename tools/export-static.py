@@ -83,7 +83,8 @@ def export(path, out_file, prefix):
     html = html.replace('href="/raspisanie-kz/', 'href="%sraspisanie-kz/' % (prefix or './'))
     # аренда (и любая другая внутренняя страница): путь от корня сайта -> относительный, иначе на GitHub Pages
     # (сайт лежит в /biart-mono/) ссылка уходит на kavdas.github.io/arenda/ и даёт 404
-    html = re.sub(r'href="/(arenda-kz|arenda)/', lambda m: 'href="%s%s/' % (prefix or './', m.group(1)), html)
+    html = re.sub(r'href="/(arenda-kz|arenda|napravleniya-kz|napravleniya|komanda-kz|komanda|faq-kz|faq)/',
+                  lambda m: 'href="%s%s/' % (prefix or './', m.group(1)), html)
     # якоря меню абсолютные, чтобы работать с внутренних страниц
     html = re.sub(r'href="/kz/#', 'href="%skz/#' % (prefix or './'), html)
     html = re.sub(r'href="/#', 'href="%s#' % (prefix or './'), html)
@@ -125,6 +126,8 @@ export('/raspisanie/', f'{OUT}/raspisanie/index.html', '../')
 export('/raspisanie-kz/', f'{OUT}/raspisanie-kz/index.html', '../')
 export('/arenda/', f'{OUT}/arenda/index.html', '../')
 export('/arenda-kz/', f'{OUT}/arenda-kz/index.html', '../')
+for _slug in ('napravleniya', 'napravleniya-kz', 'komanda', 'komanda-kz', 'faq', 'faq-kz'):
+    export(f'/{_slug}/', f'{OUT}/{_slug}/index.html', '../')
 # GitHub Pages отдаёт /404.html на любой несуществующий адрес, в том числе внутри папок,
 # поэтому ссылки и стили на ней — абсолютные (от SITE), а не относительные.
 export('/net-takoy-stranicy/', f'{OUT}/404.html', SITE)
