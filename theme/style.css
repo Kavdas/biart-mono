@@ -364,6 +364,12 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
    ПРЕИМУЩЕСТВА (тёмная карточка)
    ============================================================ */
 .benefits .section-title { max-width: 10ch; margin-bottom: clamp(56px, 8vw, 112px); }
+/* «Наши преимущества» — на фирменном оранжевом, как блок с формой */
+:root .benefits { background: var(--c-orange); }
+:root .benefits h2 em, :root .benefits .eyebrow, :root .benefits .section-lead, :root .benefits .benefit-num { color: var(--c-white); }
+:root .benefits .eyebrow { border-color: rgba(255, 255, 255, .65); }
+:root .benefits .benefit h3 ~ p { color: rgba(255, 255, 255, .88); }
+.wp-block-columns.benefit-grid > .wp-block-column.benefit { border-top-color: rgba(255, 255, 255, .45); }
 .wp-block-columns.benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
 .wp-block-columns.benefit-grid > .wp-block-column.benefit { flex: none !important; width: auto !important; min-width: 0; border-top: 1px solid var(--c-line-inv); padding-top: 28px; }
 :root .benefit-num { font-family: var(--f-serif); font-style: italic; font-size: clamp(56px, 6vw, 96px); line-height: .9; letter-spacing: -.03em; color: var(--c-orange); margin: 0 0 56px; }
