@@ -31,6 +31,7 @@ function biart_img_sizes( string $figure_class ): string {
 		'ev-ph'       => '600px',
 		// плитка ленты режется по высоте экрана: на телефоне шире своей колонки
 		'rent-strip-ph' => '(max-width: 781px) 110vw, 34vw',
+		'more-ph'     => '(max-width: 781px) 100vw, 60vw',
 	);
 	foreach ( $map as $class => $sizes ) {
 		if ( preg_match( '~(?:^|\s)' . preg_quote( $class, '~' ) . '(?:\s|$)~', $figure_class ) ) {

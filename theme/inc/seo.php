@@ -35,7 +35,7 @@ function biart_is_kz(): bool {
 	// Шаблон page-landing-kz теперь и у вынесенных разделов (бағыттар, команда, FAQ) —
 	// им нужны свои заголовок, описание и hreflang, поэтому главную узнаём по слагу.
 	return is_page( 'kz' )
-		|| ( is_page_template( 'page-landing-kz' ) && ! is_page( array( 'napravleniya-kz', 'komanda-kz', 'faq-kz' ) ) );
+		|| ( is_page_template( 'page-landing-kz' ) && ! is_page( array( 'napravleniya-kz', 'o-shkole-kz', 'faq-kz' ) ) );
 }
 
 /**
@@ -45,7 +45,7 @@ function biart_is_kz(): bool {
  */
 function biart_is_kz_lang(): bool {
 	return biart_is_kz() || is_page_template( 'page-kz' ) || is_page_template( 'page-rent-kz' )
-		|| is_page( array( 'napravleniya-kz', 'komanda-kz', 'faq-kz' ) );
+		|| is_page( array( 'napravleniya-kz', 'o-shkole-kz', 'faq-kz' ) );
 }
 
 /** Адрес казахской главной: по слагу — шаблон page-landing-kz теперь и у вынесенных разделов. */
@@ -65,13 +65,13 @@ function biart_section_pages(): array {
 	return array(
 		'napravleniya' => array(
 			'kz'      => 'napravleniya-kz',
-			'desc_ru' => 'Направления школы BIART в Астане: музыкальное искусство, хореография, актёрское мастерство и digital & visual art для детей 5–18 лет и взрослых.',
+			'desc_ru' => 'Направления и абонементы школы BIART в Астане: музыкальное искусство, хореография, актёрское мастерство и digital & visual art для детей 5–18 лет и взрослых, цены.',
 			'desc_kk' => 'BIART мектебінің бағыттары, Астана: музыка өнері, хореография, актёрлік шеберлік және digital & visual art — 5–18 жастағы балалар мен ересектерге.',
 		),
-		'komanda'      => array(
-			'kz'      => 'komanda-kz',
-			'desc_ru' => 'Команда BIART: кураторы и преподаватели — действующие музыканты, артисты, хореографы и digital-художники школы креативных индустрий в Астане.',
-			'desc_kk' => 'BIART командасы: кураторлар мен оқытушылар — Астанадағы креативті индустрия мектебінің музыканттары, әртістері, хореографтары және digital-суретшілері.',
+		'o-shkole'     => array(
+			'kz'      => 'o-shkole-kz',
+			'desc_ru' => 'О школе BIART в Астане: преимущества, проекты учеников, команда кураторов и преподавателей, отзывы родителей.',
+			'desc_kk' => 'BIART мектебі туралы, Астана: артықшылықтар, оқушылар жобалары, кураторлар мен оқытушылар командасы, ата-аналар пікірлері.',
 		),
 		'faq'          => array(
 			'kz'      => 'faq-kz',

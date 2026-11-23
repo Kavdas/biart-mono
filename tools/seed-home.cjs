@@ -54,15 +54,20 @@ const legal = [
   ['raspisanie', 'Расписание по возрастам', 'schedule.html', null, null],
   ['raspisanie-kz', 'Жас бойынша кесте', 'schedule-kz.html', null, 'page-kz'],
   // разделы, вынесенные с главной отдельными экранами (правки 21.11)
-  ['napravleniya', 'Направления', 'napravleniya.html', null, 'page-landing'],
-  ['napravleniya-kz', 'Бағыттар', 'napravleniya-kz.html', null, 'page-landing-kz'],
-  ['komanda', 'Наша команда', 'komanda.html', null, 'page-landing'],
-  ['komanda-kz', 'Біздің команда', 'komanda-kz.html', null, 'page-landing-kz'],
+  ['napravleniya', 'Направления и абонементы', 'napravleniya.html', null, 'page-landing'],
+  ['napravleniya-kz', 'Бағыттар мен абонементтер', 'napravleniya-kz.html', null, 'page-landing-kz'],
+  ['o-shkole', 'О школе', 'o-shkole.html', null, 'page-landing'],
+  ['o-shkole-kz', 'Мектеп туралы', 'o-shkole-kz.html', null, 'page-landing-kz'],
   ['faq', 'Частые вопросы', 'faq-page.html', null, 'page-landing'],
   ['faq-kz', 'Жиі қойылатын сұрақтар', 'faq-page-kz.html', null, 'page-landing-kz'],
   ['arenda', 'Аренда — BIART Music Hall Space', 'rent.html', null, 'page-rent'],
   ['arenda-kz', 'Жалға беру — BIART Music Hall Space', 'rent-kz.html', null, 'page-rent-kz'],
 ];
+// «Команда» вошла в «О школе» (правки 23.11) — старые страницы удаляем
+for (const old of ['komanda', 'komanda-kz']) {
+  const id = wp(['post', 'list', '--post_type=page', '--post_status=any', `--name=${old}`, '--field=ID']).replace(/[^\d]/g, '');
+  if (id) wp(['post', 'delete', id, '--force'], { stdio: 'inherit' });
+}
 for (const [slug, title, file, option, tpl] of legal) {
   let id = option ? wp(['option', 'get', option]).replace(/[^\d]/g, '') : '';
   if (!id) id = wp(['post', 'list', '--post_type=page', '--post_status=any', `--name=${slug}`, '--field=ID']).replace(/[^\d]/g, '');
