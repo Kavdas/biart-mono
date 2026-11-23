@@ -107,7 +107,7 @@ function biart_form_shortcode( $atts ): string {
 				<input type="checkbox" name="consent" required aria-describedby="<?php echo esc_attr( $id ); ?>-consent-e">
 				<span>
 					<?php
-					$btn = ( $lead || $rent ) ? $t( 'Отправить заявку', 'Өтінім жіберу' ) : $t( 'Далее', 'Әрі қарай' );
+					$btn = ( $lead || $rent ) ? $t( 'Отправить заявку', 'Өтінім жіберу' ) : $t( 'Далее', 'Әрі қарай өту' );
 					if ( $kk ) {
 						echo '«' . esc_html( $btn ) . '» түймесін басу арқылы сіз жеке деректерді жинауға және өңдеуге келісім бересіз, ';
 						echo '<a href="/privacy-policy/">Құпиялылық саясатын</a> қабылдайсыз және <a href="/dogovor-publichnoj-oferty/">пайдаланушы келісімінің шарттарымен</a> келісесіз.';
@@ -121,7 +121,7 @@ function biart_form_shortcode( $atts ): string {
 			<span class="bf-error" id="<?php echo esc_attr( $id ); ?>-consent-e" role="alert"></span>
 		</div>
 		<div class="bf-actions">
-			<button type="submit" class="bf-submit"><?php echo esc_html( ( $lead || $rent ) ? $t( 'Отправить заявку', 'Өтінім жіберу' ) : $t( 'Далее', 'Әрі қарай' ) ); ?></button>
+			<button type="submit" class="bf-submit"><?php echo esc_html( ( $lead || $rent ) ? $t( 'Отправить заявку', 'Өтінім жіберу' ) : $t( 'Далее', 'Әрі қарай өту' ) ); ?></button>
 			<p class="bf-status" role="status" aria-live="polite"></p>
 		</div>
 		<noscript>
