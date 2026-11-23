@@ -1109,6 +1109,12 @@ body.gl-open { overflow: hidden; }
 /* «О школе»: заголовок — целое предложение, поэтому кегль спокойнее обычного заголовка секции */
 :root .about .section-title.about-title { max-width: 24ch; font-size: clamp(28px, 2.9vw, 46px); line-height: 1.08; letter-spacing: -.035em; margin-bottom: 28px; }
 :root .about .about-title em { font-size: 1.06em; }
+/* «Четыре направления в одном пространстве»: подпись оранжевым и список из четырёх строк с линиями */
+:root .about .about-dirs-t { margin-bottom: 14px; }
+:root .about-dirs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--c-line); counter-reset: ad; }
+:root .about-dirs li { counter-increment: ad; display: flex; align-items: baseline; gap: 14px; margin: 0; padding: 12px 0; border-bottom: 1px solid var(--c-line);
+  font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.about-dirs li::before { content: "0" counter(ad); font-family: var(--f-mono); font-size: 12px; letter-spacing: .05em; color: var(--c-orange-ink); }
 /* ---- условия абонемента обычным шрифтом ---- */
 :root .price-note { font-family: var(--f-body); font-size: 15px; line-height: 1.55; color: var(--c-ink); max-width: 72ch; padding: 18px 22px; background: var(--c-soft); border-radius: var(--radius-md); margin-top: 24px; }
 
