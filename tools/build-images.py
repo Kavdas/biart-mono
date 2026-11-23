@@ -287,7 +287,31 @@ def hallbg():
         print(name, f, f'исходник {w}×{h}', f'{os.path.getsize(f"{OUT}/{name}.webp") // 1024} KB')
 
 
+# Плитки «Узнайте больше о BIART» на главной: фото от владельца (папка tiles-src рядом с проектом, в репозиторий не идёт).
+TILES_SRC = os.path.join(os.path.dirname(__file__), '..', 'tiles-src')
+TILES = {'tile-o-shkole': 'o-shkole.webp', 'tile-napravleniya': 'napravleniya.webp', 'tile-music-hall': 'music-hall.png', 'tile-faq': 'faq.webp'}
+
+
+def tiles():
+    for name, f in TILES.items():
+        src = os.path.join(TILES_SRC, f)
+        if not os.path.exists(src):
+            print('нет файла:', src)
+            continue
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im).convert('RGB')
+            w, h = im.size
+            for old in glob.glob(f'{OUT}/{name}*.webp'):
+                os.remove(old)
+            widths = sorted({min(x, w) for x in (480, 800, 1200)})
+            for tw in widths:
+                r = im if tw == w else sharpen(im.resize((tw, round(h * tw / w)), Image.LANCZOS))
+                dest = f'{OUT}/{name}.webp' if tw == widths[-1] else f'{OUT}/{name}-{tw}w.webp'
+                r.save(dest, 'WEBP', quality=80, method=6)
+        print(name, f, f'{w}×{h}', f'{os.path.getsize(f"{OUT}/{name}.webp") // 1024} KB')
+
+
 if __name__ == '__main__':
-    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og', 'kids', 'rent', 'hallbg']
+    steps = sys.argv[1:] or ['photos', 'illus', 'logo', 'icons', 'og', 'kids', 'rent', 'hallbg', 'tiles']
     for s in steps:
-        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og, 'kids': kids, 'rent': rent, 'hallbg': hallbg}[s]()
+        {'photos': photos, 'illus': illus, 'logo': logo, 'icons': icons, 'og': og, 'kids': kids, 'rent': rent, 'hallbg': hallbg, 'tiles': tiles}[s]()

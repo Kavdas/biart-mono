@@ -564,7 +564,8 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .more-card.is-photo { color: var(--c-white); background: #000; }
 .more-card.is-photo .more-ph { inset: 0; }
 .more-card.is-photo .more-ph img { width: 100%; height: 100%; object-fit: cover; }
-.more-card.is-photo::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .05) 30%, rgba(0, 0, 0, .72) 100%); pointer-events: none; }
+.more-card.is-photo::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 32%, rgba(0, 0, 0, .55) 62%, rgba(0, 0, 0, .82) 100%); pointer-events: none; }
+.more-card.is-photo .more-t, .more-card.is-photo .more-d { text-shadow: 0 1px 12px rgba(0, 0, 0, .35); }
 /* иллюстрация — справа на светлом фоне, текст слева не перекрывает */
 .more-card.is-illu .more-ph { right: 4%; bottom: 0; top: 20%; width: 44%; }
 .more-card.is-illu .more-ph img { width: 100%; height: 100%; object-fit: contain; object-position: right bottom; }

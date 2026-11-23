@@ -33,3 +33,5 @@ photos-src/*.png
 photos-src/*_resized.jpg
 # оригиналы фото презентации Music Hall (тяжёлые, с лицами) — в теме лежат готовые WebP
 new photos for hall/
+# фото для плиток «Узнайте больше о BIART» (на них дети) — в теме лежат готовые WebP
+tiles-src/
