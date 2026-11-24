@@ -648,7 +648,7 @@ header.wp-block-template-part { position: sticky; top: 0; z-index: 50; padding: 
 .ask-card > .ask-form { grid-column: 7 / -1; }
 .ask .section-title { max-width: 9ch; font-size: clamp(44px, 7.4vw, 124px); line-height: .86; letter-spacing: -.055em; word-spacing: .14em; font-weight: 800; text-transform: uppercase; margin-bottom: 32px; }
 .ask .section-title em { text-transform: none; font-size: 1.05em; }
-:root:lang(ru) .ask .section-title em:first-child { display: block; line-height: 1; margin: .06em 0 .14em; word-spacing: 0; }
+:root:lang(ru) .ask .section-title em:first-child { display: block; font-size: 1.32em; line-height: .9; margin: .02em 0 .1em; word-spacing: 0; white-space: nowrap; }
 .ask .section-lead { max-width: 26ch; font-size: clamp(20px, 2vw, 28px); color: var(--c-white); letter-spacing: -.03em; margin-bottom: 0; }
 @media (max-width: 1024px) { .ask-card > .ask-text, .ask-card > .ask-form { grid-column: 1 / -1; } }
 
