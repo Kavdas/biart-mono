@@ -1216,6 +1216,26 @@ header.wp-block-template-part.is-hidden { transform: translateY(-110%); }
   .wp-block-columns.teacher-grid > *, .review-wall > *, .rent-cards > *, .tech-grid > * { scroll-snap-align: start; }
 }
 
+/* телефон: абонементы — горизонтальная лента, виден край следующей карточки; карточки одной высоты, кнопка внизу */
+@media (max-width: 781px) {
+  .wp-block-columns.price-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(82%, 330px); gap: 12px;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 8px; scrollbar-width: none; align-items: stretch; }
+  .wp-block-columns.price-grid::-webkit-scrollbar { display: none; }
+  .wp-block-columns.price-grid > .wp-block-column.price { scroll-snap-align: start; padding: 22px 20px; }
+  :root .price-sum { font-size: 42px; }
+  :root .price-li { font-size: 14.5px; padding: 8px 0; }
+  .price-featured h3 { padding-right: 96px; }
+}
+/* точки под лентой (swipe-dots.js): только на телефоне */
+.swipe-dots { display: none; }
+@media (max-width: 781px) {
+  .swipe-dots { display: flex; justify-content: center; gap: 6px; margin: 14px 0 18px; }
+  .swipe-dots button { width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .swipe-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--c-line); transition: width .25s, background .25s; }
+  .swipe-dots button.is-on::before { width: 22px; background: var(--c-orange); }
+}
+
 /* галерея аренды на телефоне: 6 фото и кнопка «Ещё фото» (gallery.js); лайтбокс листает всю категорию */
 .gal-grid.is-collapsed .gal-item.is-extra { display: none; }
 .gal-more { margin: 16px 0 0; }

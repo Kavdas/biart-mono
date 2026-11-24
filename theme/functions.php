@@ -66,6 +66,14 @@ function biart_enqueue(): void {
 		(string) filemtime( get_stylesheet_directory() . '/assets/js/wa-source.js' ),
 		array( 'strategy' => 'defer' )
 	);
+	// Точки под лентой абонементов на телефоне.
+	wp_enqueue_script(
+		'biart-swipe-dots',
+		get_template_directory_uri() . '/assets/js/swipe-dots.js',
+		array(),
+		(string) filemtime( get_stylesheet_directory() . '/assets/js/swipe-dots.js' ),
+		array( 'strategy' => 'defer' )
+	);
 	// Лента фото на первом экране аренды (на других страницах скрипт сразу выходит).
 	wp_enqueue_script(
 		'biart-rent-strip',
