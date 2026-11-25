@@ -283,3 +283,33 @@ function biart_kz_fallback(): void {
 	}
 }
 add_action( 'template_redirect', 'biart_kz_fallback' );
+
+/**
+ * Старый сайт biart.kz (до 25.11.2026) жил на TranslatePress: казахский — в корне и /kk/…,
+ * русский — /ru/…. Поисковики ещё держат эти адреса. Вместо 404 — постоянный редирект
+ * на ту же страницу нового сайта, если она есть, иначе на главную нужного языка.
+ */
+function biart_old_lang_redirect(): void {
+	if ( ! is_404() ) {
+		return;
+	}
+	$path = trim( wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) ?? '', '/' );
+	if ( ! preg_match( '#^(ru|kk)(?:/(.*))?$#', $path, $m ) ) {
+		return;
+	}
+	$is_kz = 'kk' === $m[1];
+	$slug  = trim( $m[2] ?? '', '/' );
+	$url   = $is_kz ? home_url( '/kz/' ) : home_url( '/' );
+	if ( '' !== $slug ) {
+		$page = get_page_by_path( $is_kz ? $slug . '-kz' : $slug );
+		if ( ! $page && $is_kz ) {
+			$page = get_page_by_path( $slug );
+		}
+		if ( $page && 'publish' === $page->post_status ) {
+			$url = get_permalink( $page );
+		}
+	}
+	wp_safe_redirect( $url, 301 );
+	exit;
+}
+add_action( 'template_redirect', 'biart_old_lang_redirect', 1 ); // раньше redirect_canonical, который угадывает /kk/faq → /faq/
