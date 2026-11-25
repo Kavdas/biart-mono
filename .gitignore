@@ -35,3 +35,7 @@ photos-src/*_resized.jpg
 new photos for hall/
 # фото для плиток «Узнайте больше о BIART» (на них дети) — в теме лежат готовые WebP
 tiles-src/
+
+# архивы переноса на хостинг
+release/
+*.wpress
