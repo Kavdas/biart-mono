@@ -229,8 +229,8 @@ def og():
     """Картинка для превью ссылки 1200×630: белая карточка, оранжевый курсив, цветные персонажи."""
     from PIL import ImageDraw, ImageFont
     fonts = os.path.join(os.path.dirname(__file__), '..', 'fonts-src')
-    f_caps = ImageFont.truetype(f'{fonts}/InterTight-900.ttf', 132)
-    f_it = ImageFont.truetype(f'{fonts}/PlayfairItalic-400.ttf', 150)
+    f_caps = ImageFont.truetype(f'{fonts}/InterTight-900.ttf', 92)
+    f_it = ImageFont.truetype(f'{fonts}/PlayfairItalic-400.ttf', 112)
     f_mono = ImageFont.truetype(f'{fonts}/JetBrainsMono-500.ttf', 21)
     W, H = 1200, 630
     im = Image.new('RGB', (W, H), '#ffffff')
@@ -239,11 +239,11 @@ def og():
     d.rounded_rectangle((78, 70, 78 + 560, 70 + 46), radius=23, outline='#242c6c', width=2)
     d.rectangle((98, 89, 106, 97), fill='#242c6c')
     d.text((122, 80), 'ШКОЛА КРЕАТИВНЫХ ИНДУСТРИЙ · АСТАНА', font=f_mono, fill='#242c6c')
-    d.text((74, 160), 'НАЙДИ СВОЙ', font=f_caps, fill='#000000')
-    d.text((80, 292), 'голос!', font=f_it, fill='#db4d37')
+    d.text((74, 178), 'НАПРАВЬ СВОЁ', font=f_caps, fill='#000000')
+    d.text((80, 292), 'вдохновение', font=f_it, fill='#db4d37')
     d.text((80, 520), 'BIART  ·  музыка · танец · театр · digital', font=f_mono, fill='#5d5d5d')
-    art = Image.open(f'{OUT}/char-acting-640w.webp').convert('RGBA')
-    art = art.resize((520, round(art.height * 520 / art.width)), Image.LANCZOS)
+    art = Image.open(f'{OUT}/char-dance-640w.webp').convert('RGBA')
+    art = art.resize((380, round(art.height * 380 / art.width)), Image.LANCZOS)
     im.paste(art, (W - art.width - 56, H - art.height - 26), art)
     im.save(f'{OUT}/og.jpg', quality=90, optimize=True, progressive=True)
     print('og.jpg 1200×630')
